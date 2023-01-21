@@ -1,0 +1,110 @@
+---
+title: "TakeHomeEx01"
+---
+
+## Task
+
+[Age-sex pyramid](https://isss608-ay2022-23jan.netlify.app/outline/lesson01_outline#age-sex-pyramid) is an analytical visualisation commonly used by demographers to reveal the structure of population by gender and age group. In this take-home exercise, you are required to reveal the demographic structure of Singapore at planning area level by using age-sex pyramid method. Instead of plotting a single age-sex pyramid, however, you are required to display nine selected planning areas on a single view by using [trellis display (also know as small-multiple plot)](https://isss608-ay2022-23jan.netlify.app/outline/lesson01_outline#trellis-display).
+
+### Tools used
+
+-   Tableau Prep Builder version 2022.4: Used for data cleaning to removed unnecessary fields and filtering of relevant fields
+
+-   Tableau version 2022.4
+
+### Data Used
+
+*Singapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2022* should be used to prepare the analytical visualisation. It is available at [Department of Statistics, Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)(in short SingStat).
+
+### Presentation
+
+-   The analytical visualisation would be uploaded onto [Tableau Public](https://public.tableau.com/en-us/s/).
+
+-   A write-up of the take-home exercise would be prepared in **Quarto html document** format and published on [Netlify](https://www.netlify.com/).
+
+## Cleaning the data
+
+### Importing the data
+
+Open up the downloaded dataset in Tableau Prep Builder by dragging the file into the Tableau Prep Builder.
+
+![](images/image-608098745.png)
+
+### Cleaning up the data
+
+As we are only interested in the Planning Zone (PZ), we will uncheck the SZ box. Since the whole dataset is for the year 2022, the field, Time is also irrelevant, so we will also uncheck that.
+
+### ![](images/image-1570625322.png)
+
+### Creating new fields
+
+### ![](images/image-467436628.png)
+
+### ![](images/image-114243457.png)
+
+### ![](images/image-362852113.png)
+
+![](images/image-204632567.png)
+
+![](images/image-1652373985.png)
+
+![](images/image-1505675631.png)
+
+### 
+Exporting
+
+Click the + icon next to the dataset and select output
+
+![](images/image-1814753214.png)
+
+![](images/image-839398350.png)
+
+## Visualising the data
+
+![](images/image-301990455.png)
+
+### ![](images/image-359026828.png)
+
+### Create Overview
+
+![](images/image-1619038247.png)
+
+![](images/image-1061981076.png)
+
+![](images/image-1219950638.png)
+
+![](images/image-451698649.png)
+
+![](images/image-1588439321.png)
+
+Do the same forfemale
+
+![](images/image-467086526.png)
+
+Lbels
+
+![](images/image-1782012509.png)
+
+![](images/image-909435535.png)
+
+![](images/image-1467485206.png)
+
+![](images/image-1327522652.png)
+
+![](images/image-1935234517.png)
+
+![](images/image-1958909325.png)
+
+![](images/image-226927459.png)
+
+![](images/image-526814891.png)
+
+![](images/image-1154200158.png)
+
+![](images/image-429080452.png)
+
+### Create Age-Sex pyramid
+
+### Creating a Story
+
+### Discussion
