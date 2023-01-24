@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20224.22.1117.1841                               -->
+<workbook original-version='18.1' source-build='2022.4.0 (20224.22.1117.1841)' source-platform='win' version='18.1' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_.fcp.AccessibleZoneTabOrder.true...AccessibleZoneTabOrder />
+    <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <_.fcp.MarkAnimation.true...MarkAnimation />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+    <ZoneBackgroundTransparency />
+  </document-format-change-manifest>
+  <repository-location id='TakeHomeEx01_2' path='/workbooks' revision='1.2' />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <_.fcp.AnimationOnByDefault.false...style>
+    <_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule element='animation'>
+      <_.fcp.AnimationOnByDefault.false...format attr='animation-on' value='ao-on' />
+    </_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule>
+  </_.fcp.AnimationOnByDefault.false...style>
+  <datasources>
+    <datasource caption='AgeSexByPZCLeaned2 Extract' inline='true' name='federated.08ey18z1r5dq301h2j7iy0b7i1zs' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='AgeSexByPZCLeaned2' name='hyper.0hsb0kj083fv2h1felme70fmu67u'>
+            <connection authentication='auth-none' author-locale='en_GB' class='hyper' dbname='C:/clshi2022/ISSS608/TakeHomeEx/TakeHomeEx01/AgeSexByPZCLeaned2.hyper' default-settings='yes' server='' sslmode='' username='tableau_internal_user' workgroup-auth-mode='as-is' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='hyper.0hsb0kj083fv2h1felme70fmu67u' name='Extract' table='[Extract].[Extract]' type='table' />
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation connection='hyper.0hsb0kj083fv2h1felme70fmu67u' name='Extract' table='[Extract].[Extract]' type='table' />
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>AG_new</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[AG_new]</local-name>
+            <parent-name>[Extract]</parent-name>
+            <remote-alias>AG_new</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <approx-count>19</approx-count>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Male Population</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Male Population]</local-name>
+            <parent-name>[Extract]</parent-name>
+            <remote-alias>Male Population</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <approx-count>119</approx-count>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Female Population</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Female Population]</local-name>
+            <parent-name>[Extract]</parent-name>
+            <remote-alias>Female Population</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <approx-count>128</approx-count>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>PA</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[PA]</local-name>
+            <parent-name>[Extract]</parent-name>
+            <remote-alias>PA</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <approx-count>52</approx-count>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Sex</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Sex]</local-name>
+            <parent-name>[Extract]</parent-name>
+            <remote-alias>Sex</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <approx-count>2</approx-count>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pop</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Pop]</local-name>
+            <parent-name>[Extract]</parent-name>
+            <remote-alias>Pop</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <approx-count>144</approx-count>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Age Group' datatype='string' name='[AG_new]' role='dimension' type='nominal' />
+      <column caption='Columns' datatype='real' name='[Calculation_1030198470113046529]' role='measure' type='ordinal'>
+        <calculation class='tableau' formula='//Columns&#13;&#10;(index()-1)%(round(sqrt(size())))'>
+          <table-calc ordering-type='Rows' />
+        </calculation>
+      </column>
+      <column caption='Rows' datatype='integer' name='[Calculation_1030198470113058818]' role='measure' type='ordinal'>
+        <calculation class='tableau' formula='//Rows&#13;&#10;int( (index()-1)/(round(sqrt(size()))))'>
+          <table-calc ordering-type='Rows' />
+        </calculation>
+      </column>
+      <column caption='Window Max' datatype='integer' name='[Calculation_902127355931799553]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='//WIndows Max&#13;&#10;Window_Max(0)'>
+          <table-calc ordering-type='Rows' />
+        </calculation>
+      </column>
+      <column caption='PA Label' datatype='string' name='[Calculation_902127355932106754]' role='measure' type='nominal'>
+        <calculation class='tableau' formula='IF FIRST()=0 THEN WINDOW_MAX(ATTR([PA])) END'>
+          <table-calc ordering-type='Rows' />
+        </calculation>
+      </column>
+      <column datatype='integer' name='[Female Population]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Male Population]' role='measure' type='quantitative' />
+      <column datatype='string' name='[PA]' role='dimension' type='nominal' />
+      <column datatype='string' name='[Sex]' role='dimension' type='nominal' />
+      <_.fcp.ObjectModelTableType.true...column caption='Extract' datatype='table' name='[__tableau_internal_object_id__].[Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC]' role='measure' type='quantitative' />
+      <column-instance column='[Sex]' derivation='None' name='[none:Sex:nk]' pivot='key' type='nominal' />
+      <column-instance column='[Female Population]' derivation='Sum' name='[sum:Female Population:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Male Population]' derivation='Sum' name='[sum:Male Population:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Calculation_902127355931799553]' derivation='User' name='[usr:Calculation_902127355931799553:qk:4]' pivot='key' type='quantitative'>
+        <table-calc ordering-field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[PA]' ordering-type='Field' />
+      </column-instance>
+      <column-instance column='[Calculation_902127355931799553]' derivation='User' name='[usr:Calculation_902127355931799553:qk:5]' pivot='key' type='quantitative'>
+        <table-calc ordering-field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[AG_new]' ordering-type='Field' />
+      </column-instance>
+      <column-instance column='[Calculation_902127355931799553]' derivation='User' name='[usr:Calculation_902127355931799553:qk]' pivot='key' type='quantitative'>
+        <table-calc ordering-type='Columns' />
+      </column-instance>
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:Sex:nk]' type='palette'>
+            <map to='#a0cbe8'>
+              <bucket>&quot;Females&quot;</bucket>
+            </map>
+            <map to='#ffbe7d'>
+              <bucket>&quot;Males&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk:4]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk:5]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Male Population:qk]&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Singapore&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='Extract' id='Extract (Extract.Extract)_D23E72FE7420422EB57B2B18981E1EDC'>
+            <properties context=''>
+              <relation connection='hyper.0hsb0kj083fv2h1felme70fmu67u' name='Extract' table='[Extract].[Extract]' type='table' />
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Age Sex Pyramid By Planning Area'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='AgeSexByPZCLeaned2 Extract' name='federated.08ey18z1r5dq301h2j7iy0b7i1zs' />
+          </datasources>
+          <datasource-dependencies datasource='federated.08ey18z1r5dq301h2j7iy0b7i1zs'>
+            <column caption='Age Group' datatype='string' name='[AG_new]' role='dimension' type='nominal' />
+            <column caption='Columns' datatype='real' name='[Calculation_1030198470113046529]' role='measure' type='ordinal'>
+              <calculation class='tableau' formula='//Columns&#13;&#10;(index()-1)%(round(sqrt(size())))'>
+                <table-calc ordering-type='Rows' />
+              </calculation>
+            </column>
+            <column caption='Rows' datatype='integer' name='[Calculation_1030198470113058818]' role='measure' type='ordinal'>
+              <calculation class='tableau' formula='//Rows&#13;&#10;int( (index()-1)/(round(sqrt(size()))))'>
+                <table-calc ordering-type='Rows' />
+              </calculation>
+            </column>
+            <column caption='Window Max' datatype='integer' name='[Calculation_902127355931799553]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='//WIndows Max&#13;&#10;Window_Max(0)'>
+                <table-calc ordering-type='Rows' />
+              </calculation>
+            </column>
+            <column caption='PA Label' datatype='string' name='[Calculation_902127355932106754]' role='measure' type='nominal'>
+              <calculation class='tableau' formula='IF FIRST()=0 THEN WINDOW_MAX(ATTR([PA])) END'>
+                <table-calc ordering-type='Rows' />
+              </calculation>
+            </column>
+            <column datatype='integer' name='[Female Population]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[Male Population]' role='measure' type='quantitative' />
+            <column datatype='string' name='[PA]' role='dimension' type='nominal' />
+            <column datatype='string' name='[Sex]' role='dimension' type='nominal' />
+            <column-instance column='[AG_new]' derivation='None' name='[none:AG_new:nk]' pivot='key' type='nominal' />
+            <column-instance column='[PA]' derivation='None' name='[none:PA:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Sex]' derivation='None' name='[none:Sex:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Female Population]' derivation='Sum' name='[sum:Female Population:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Male Population]' derivation='Sum' name='[sum:Male Population:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_1030198470113046529]' derivation='User' name='[usr:Calculation_1030198470113046529:ok:1]' pivot='key' type='ordinal'>
+              <table-calc ordering-field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[PA]' ordering-type='Field' />
+            </column-instance>
+            <column-instance column='[Calculation_1030198470113058818]' derivation='User' name='[usr:Calculation_1030198470113058818:ok:1]' pivot='key' type='ordinal'>
+              <table-calc ordering-field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[PA]' ordering-type='Field' />
+            </column-instance>
+            <column-instance column='[Calculation_902127355931799553]' derivation='User' name='[usr:Calculation_902127355931799553:qk]' pivot='key' type='quantitative'>
+              <table-calc ordering-type='Columns' />
+            </column-instance>
+            <column-instance column='[Calculation_902127355932106754]' derivation='User' name='[usr:Calculation_902127355932106754:nk]' pivot='key' type='nominal'>
+              <table-calc ordering-type='Columns' />
+            </column-instance>
+          </datasource-dependencies>
+          <natural-sort column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]' direction='DESC' />
+          <filter class='categorical' column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]'>
+            <groupfilter function='union' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Bedok&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Choa Chu Kang&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Hougang&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Jurong West&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Punggol&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Sengkang&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Tampines&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Woodlands&quot;' />
+              <groupfilter function='member' level='[none:PA:nk]' member='&quot;Yishun&quot;' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='render-fold-reversed' value='false' />
+            <encoding attr='space' class='0' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Male Population:qk]' field-type='quantitative' reverse='true' scope='cols' type='space' />
+            <encoding attr='space' class='0' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]' field-type='quantitative' fold='true' scope='cols' type='space' />
+            <format attr='display' class='0' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]' scope='cols' value='false' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='text-align' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' value='auto' />
+            <format attr='text-format' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]' value='' />
+            <format attr='font-weight' data-class='subtotal' scope='cols' value='normal' />
+            <format attr='font-weight' data-class='total' scope='cols' value='normal' />
+            <format attr='font-weight' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355932106754:nk]' value='bold' />
+            <format attr='font-size' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355932106754:nk]' value='12' />
+            <format attr='color' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355932106754:nk]' value='#000000' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]' value='124' />
+            <format attr='background-color' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]' value='#d4d4d4' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='text-align' scope='cols' value='auto' />
+            <format attr='text-align' scope='rows' value='left' />
+            <format attr='font-weight' scope='cols' value='normal' />
+            <format attr='text-align' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]' value='center' />
+            <format attr='display' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_1030198470113046529:ok:1]' value='false' />
+            <format attr='display' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_1030198470113058818:ok:1]' value='false' />
+          </style-rule>
+          <style-rule element='table'>
+            <format attr='omit-on-special' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]' value='false' />
+            <format attr='break-on-special' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]' value='false' />
+            <format attr='show-null-value-warning' field='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]' value='false' />
+            <format attr='band-size' scope='rows' value='1' />
+            <format attr='band-size' scope='cols' value='0' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' />
+              <lod column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>AG new:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>PA:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Sex:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Female Population:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk]>]]></run>
+                <run>Æ&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='cell'>
+                <format attr='text-align' value='auto' />
+              </style-rule>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='auto' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='false' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='3' selection-relaxation-option='selection-relaxation-allow' x-axis-name='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Male Population:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' />
+              <lod column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' />
+              <color column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>AG new:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>PA:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Sex:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Female Population:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk]>]]></run>
+                <run>Æ&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='cell'>
+                <format attr='text-align' value='auto' />
+              </style-rule>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='auto' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='false' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='4' selection-relaxation-option='selection-relaxation-allow' x-axis-name='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' />
+              <lod column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>AG new:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>PA:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Sex:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Female Population:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk]>]]></run>
+                <run>Æ&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='cell'>
+                <format attr='text-align' value='auto' />
+              </style-rule>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='auto' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='false' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='5' selection-relaxation-option='selection-relaxation-allow' x-axis-name='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Text' />
+            <encodings>
+              <color column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' />
+              <text column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355932106754:nk]' />
+              <lod column='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>AG new:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>PA:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Sex:&#9;</run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Female Population:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk]>]]></run>
+                <run>Æ&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='cell'>
+                <format attr='text-align' value='auto' />
+              </style-rule>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='auto' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='false' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_1030198470113058818:ok:1] / [federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:AG_new:nk])</rows>
+        <cols>([federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_1030198470113046529:ok:1] * ([federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Male Population:qk] + ([federated.08ey18z1r5dq301h2j7iy0b7i1zs].[usr:Calculation_902127355931799553:qk] + [federated.08ey18z1r5dq301h2j7iy0b7i1zs].[sum:Female Population:qk])))</cols>
+      </table>
+      <simple-id uuid='{5518196A-1015-40FD-BB76-FBB6CC03ACC6}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard _.fcp.AccessibleZoneTabOrder.true...enable-sort-zone-taborder='true' name='Dashboard 1'>
+      <style />
+      <size sizing-mode='automatic' />
+      <datasources>
+        <datasource caption='AgeSexByPZCLeaned2 Extract' name='federated.08ey18z1r5dq301h2j7iy0b7i1zs' />
+      </datasources>
+      <datasource-dependencies datasource='federated.08ey18z1r5dq301h2j7iy0b7i1zs'>
+        <column datatype='string' name='[PA]' role='dimension' type='nominal' />
+        <column-instance column='[PA]' derivation='None' name='[none:PA:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <zones>
+        <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='89176' id='5' param='horz' type-v2='layout-flow' w='99504' x='248' y='10187'>
+            <zone h='89176' id='3' type-v2='layout-basic' w='94549' x='248' y='10187'>
+              <zone h='89176' id='1' name='Age Sex Pyramid By Planning Area' show-title='false' w='94549' x='248' y='10187'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+            <zone fixed-size='160' h='89176' id='4' is-fixed='true' param='vert' type-v2='layout-flow' w='4955' x='94797' y='10187'>
+              <zone h='5255' id='7' name='Age Sex Pyramid By Planning Area' pane-specification-id='5' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' type-v2='color' w='4955' x='94797' y='10187'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone forceUpdate='true' h='6051' id='13' type-v2='text' w='4955' x='94797' y='15442'>
+                <formatted-text>
+                  <run italic='true'>Chart is Dynamic, check / uncheck the boxes below to select desired Planning Areas</run>
+                </formatted-text>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='66083' id='6' name='Age Sex Pyramid By Planning Area' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' type-v2='filter' w='4955' x='94797' y='21493'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+          </zone>
+          <zone forceUpdate='true' h='9550' id='8' type-v2='text' w='99504' x='248' y='637'>
+            <formatted-text>
+              <run bold='true' fontalignment='1' fontsize='20'>Singapore&apos;s Population Demography</run>
+              <run fontalignment='1'>Æ&#10;</run>
+              <run fontalignment='1' fontsize='15'>Age-Sex Pyramid of 9 most densely populated areas, June 2022</run>
+              <run fontalignment='1'>Æ&#10;</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='700' minheight='700' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='21' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98726' id='20' param='vert' type-v2='layout-flow' w='99504' x='248' y='637'>
+                <zone forceUpdate='true' h='9550' id='8' type-v2='text' w='99504' x='248' y='637'>
+                  <formatted-text>
+                    <run bold='true' fontalignment='1' fontsize='20'>Singapore&apos;s Population Demography</run>
+                    <run fontalignment='1'>Æ&#10;</run>
+                    <run fontalignment='1' fontsize='15'>Age-Sex Pyramid of 9 most densely populated areas, June 2022</run>
+                    <run fontalignment='1'>Æ&#10;</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='66083' id='6' mode='checkdropdown' name='Age Sex Pyramid By Planning Area' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' type-v2='filter' w='4955' x='94797' y='21493'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='89176' id='1' is-fixed='true' name='Age Sex Pyramid By Planning Area' show-title='false' w='94549' x='248' y='10187'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='5255' id='7' name='Age Sex Pyramid By Planning Area' pane-specification-id='1' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' type-v2='color' w='4955' x='94797' y='10187'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone forceUpdate='true' h='6051' id='13' type-v2='text' w='4955' x='94797' y='15442'>
+                  <formatted-text>
+                    <run italic='true'>Chart is Dynamic, check / uncheck the boxes below to select desired Planning Areas</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{7BDEA078-F9B5-4E22-B924-31B7F9A33B25}' />
+    </dashboard>
+    <dashboard _.fcp.AccessibleZoneTabOrder.true...enable-sort-zone-taborder='true' name='Dashboard 2'>
+      <style />
+      <size sizing-mode='automatic' />
+      <datasources>
+        <datasource caption='AgeSexByPZCLeaned2 Extract' name='federated.08ey18z1r5dq301h2j7iy0b7i1zs' />
+      </datasources>
+      <datasource-dependencies datasource='federated.08ey18z1r5dq301h2j7iy0b7i1zs'>
+        <column datatype='string' name='[PA]' role='dimension' type='nominal' />
+        <column-instance column='[PA]' derivation='None' name='[none:PA:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <zones>
+        <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='98726' id='7' param='horz' type-v2='layout-flow' w='99504' x='248' y='637'>
+            <zone h='98726' id='5' type-v2='layout-basic' w='94549' x='248' y='637'>
+              <zone h='98726' id='3' name='Age Sex Pyramid By Planning Area' show-title='false' w='94549' x='248' y='637'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+            <zone fixed-size='160' h='98726' id='6' is-fixed='true' param='vert' type-v2='layout-flow' w='4955' x='94797' y='637'>
+              <zone h='66083' id='8' name='Age Sex Pyramid By Planning Area' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' type-v2='filter' w='4955' x='94797' y='637'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='5255' id='9' name='Age Sex Pyramid By Planning Area' pane-specification-id='5' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' type-v2='color' w='4955' x='94797' y='66720'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='5255' id='10' name='Age Sex Pyramid By Planning Area' pane-specification-id='3' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]&#10;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[:Measure Names]' type-v2='color' w='4955' x='94797' y='71975'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='700' minheight='700' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='1' param='vert' type-v2='layout-flow' w='84000' x='8000' y='8000' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{6CBB1687-A959-4F8E-9443-48A67C4405E3}' />
+    </dashboard>
+  </dashboards>
+  <windows source-height='30'>
+    <window class='worksheet' name='Age Sex Pyramid By Planning Area'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:PA:nk]' type='filter' />
+            <card pane-specification-id='5' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]' type='color' />
+            <card pane-specification-id='3' param='[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[none:Sex:nk]&#10;[federated.08ey18z1r5dq301h2j7iy0b7i1zs].[:Measure Names]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{489E043B-3AA0-43E2-9428-DE10BE28E537}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Dashboard 1'>
+      <viewpoints>
+        <viewpoint name='Age Sex Pyramid By Planning Area' />
+      </viewpoints>
+      <active id='1' />
+      <simple-id uuid='{286F4B3C-2A35-40F3-A60E-F4F62DCA43CA}' />
+    </window>
+    <window class='dashboard' name='Dashboard 2'>
+      <viewpoints>
+        <viewpoint name='Age Sex Pyramid By Planning Area' />
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{22A92EA8-C2C9-4444-B27E-2C637364D775}' />
+    </window>
+  </windows>
+</workbook>

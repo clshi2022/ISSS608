@@ -38,52 +38,121 @@ As we are only interested in the Planning Zone (PZ), we will uncheck the SZ box.
 
 ### Creating new fields
 
-### ![](images/image-467436628.png)
+Tableau is unable to sort the Male and Females into two columns as per an Age-Sex Pyramid, hence we would need to create 2 more values for the male and female population respectively and display them separately in Tableau later.
 
-### ![](images/image-114243457.png)
+`Right click on "Sex" column > select "Calculated Field" > "Custom Calculation`
 
-### ![](images/image-362852113.png)
+![](images/image-467436628.png)
 
-![](images/image-204632567.png)
+In the dialog box that pops up, key in
+
+`IF [Sex] = 'Males' THEN [Pop] END`
+
+![](images/image-114243457.png)
+
+Repeat the same process for Females
+
+![](images/image-362852113.png)
+
+We also see that the Age Group consists of underscores as shown below, we will use "edit field" to replace the "\_" with spaces instead. Use the following code:
+
+`Replace([AG],'_',' ')`
 
 ![](images/image-1652373985.png)
 
-![](images/image-1505675631.png)
+There are also some Planning Areas with 0 population, like in Jurong East, Water Catchment areas. These areas would be irrelevant as we want to show the Age-Sex Pyramid for PAs in Singapore. we would now remove those 0 values by using the filter function in Tableau Prep Builder.
 
-### 
-Exporting
+`Right Click on Pop > "Select Filter" > Select "Selcted Values"`
 
-Click the + icon next to the dataset and select output
+![](images/image-858831415.png)
+
+`Select "Exclude" > Check "0"`
+
+![](images/image-470823080.png)
+
+### Exporting out from Tableau Prep Builder
+
+We are now ready to export the cleaned data from Tableau Prep Builder and start on the visualisation in Tableau.
+
+`Click the + icon next to the dataset and select output`
 
 ![](images/image-1814753214.png)
+
+`Click on the play button to create and export the file`
 
 ![](images/image-839398350.png)
 
 ## Visualising the data
 
+We will now carry out the visualisation in Tableau. First, we will open the file that was exported from the Tableau Prep Builder just now. It is a "Tableau Hyper" file. Just drag and drop the file into the Tableau window.
+
 ![](images/image-301990455.png)
 
-### ![](images/image-359026828.png)
+If everything goes well, we will now see the following view.
 
-### Create Overview
+![](images/image-359026828.png)
 
-![](images/image-1619038247.png)
+### Creating a Trellis Layout
 
-![](images/image-1061981076.png)
+In order to create a Trellis Layout, we would need to create two Calculated Fields, "Row" and "Column". This will tell Tableau how many Rows and Columns to visualse the data.
 
-![](images/image-1219950638.png)
+`Click on the small triangle in the Data Box and select "Create Calculated Field" from the drop down box`
 
-![](images/image-451698649.png)
+![](images/image-100186090.png)
 
-![](images/image-1588439321.png)
+Create the following two fields
 
-Do the same forfemale
+![](images/image-1514326330.png)
 
-![](images/image-467086526.png)
+![](images/image-1312812322.png)
 
-Lbels
+After this is done, drag Column, Row, Age Group, Male Population and Female Population into the shelf as shown below
+
+![](images/image-1417112306.png)
+
+### Creating the population visualisaion
+
+However this doesn't look quite correct. The reason is because the rows and columns are not calculating based on the Planning Area. to resolve this, we need to drag the PA into the Marks Box and set Rows and Columns to calculate based on PA.
+
+`Drag PA into Marks Box`
+
+`click on small triangle for Columns > select Compute using >select PA`
+
+`Repeat for Rows`
+
+![](images/image-1924551563.png)
+
+We should now end up with the following view. This doesn't look like an Age-Sex Pyramid yet. We need to set the male x axis to reserve and change the colur.
+
+![](images/image-2033169086.png)
+
+`Right Click X axis, Male Population and select "Edit Axis"`
+
+![](images/image-1310157706.png)
+
+`Check "Reversed"`
+
+![](images/image-1564309203.png)
+
+The chart is shaping up to look like an Age-Sex Pyramid now. let's change the colour to make it clearer.
+
+`Drag "Sex"  into "Color" under the Marks Box`
+
+We now have the basic visualisation for an Age -Sex Pyramid organised into a Trellis Displpay.
+
+![](images/image-2041642045.png)
+
+### Adding Labels
+
+The chart is a bit hard to read. we should add lables showing the population numbers for the Male and Female Populations.
+
+`Click Labels under Marks Box > Check "Show mark labels"`
 
 ![](images/image-1782012509.png)
+
+Tableau will automatically select a colour to contrast the lables, however it does not zalways work correct due to different display resolutions. If the text is a bit harder to read on your display. we can change the colours for the sex.
+
+`click on the small triangle in the legend on the right hand side > select "edit Colours" and choose whateever colour u want.`
 
 ![](images/image-909435535.png)
 
@@ -93,18 +162,66 @@ Lbels
 
 ![](images/image-1935234517.png)
 
-![](images/image-1958909325.png)
-
-![](images/image-226927459.png)
-
-![](images/image-526814891.png)
-
 ![](images/image-1154200158.png)
 
-![](images/image-429080452.png)
+The Age-Sex pyramid now shows the gender and population numbers clearly by Age-group, but is still missing the PA name.
 
-### Create Age-Sex pyramid
+### Labeling each box of a Trellis Display in Tableau
 
-### Creating a Story
+Labeling Trellis display boxes can be tricky. there is no straightforward way to do it in Tableau. the correct way to do it would be to use a dual axis chart. we would create a new axis and stack it with our existing chart for labeling purpose. First, we create a new axis called "Window Max". this is done via "create calculated field" again.
 
-### Discussion
+![](images/image-1848560983.png)
+
+Next, we create another table called PA Label which will hold the label data
+
+![](images/image-540903023.png)
+
+We will now drag the "Windows Max" dimension on top of the Male Column as shown below
+
+![](images/image-495053734.png)
+
+The Shelf should now look like this
+
+![](images/image-241144167.png)
+
+We now drag the PA Label onto the text box under "Windows Max" in Marks Box
+
+![](images/image-1776996339.png)
+
+The final product would now look like this.
+
+![](images/image-2145420599.png)
+
+We can now tidy the formatting by hiding unwanted headers, adding banding and adjusting the fonts to make the chart more readable before moving on to creating a dashboard
+
+## Creating a Dashboard
+
+First, we set the desired size. i chose "Automatic" however tableau has a wide range fo options to choose from, depending on where you are intending to show the visualisation.
+
+![](images/image-649046950.png)
+
+Next, we drag the Age Sex Pyramid into the blank dashboard
+
+![](images/image-1247687717.png)
+
+It look fine, but we should create a proper header to inform people what the chart is about. we drag the "Text" Object to the top of the dashboard to create the header
+
+![](images/image-1516849516.png)
+
+Finally it should look like this
+
+![](images/image-726309750.png)
+
+## Discussion
+
+A **population pyramid** (age structure diagram) or "**age-sex pyramid**" is a graphical illustration of the distribution of a population by age groups and sex and is often used to determine the overall age distribution of a population and an indication of the reproductive capabilities. There are generally three types of population pyramid.
+
+| Trend (Shape)                             | Characteristics                                                                                       |
+|------------------------------|------------------------------------------|
+| Expansive (Pyramid)                       | High Birthrates and perhaps high mortality rates. The population is replacing faster than it is dying |
+| Constrictive (Square or inverted pyramid) | Population is living longer, but low birth rates. population is not replacing as fast as it's dying.  |
+| Stationary (Pillar)                       | Birthrates and Mortality rates roughly balance each other.                                            |
+
+While Age-sex Pyramids are often used to determine if a country's population is replacing itself fast enough, it may not be useful to analyse the PA break down in this manner, as it is very common for Singaporean's to move to another area once they reach certain life milestones. for example, when getting married, when their children reach primary school age, and when they reach retirement age. It might be more insightful to cross reference the age-sex pyramid with the age of the PA (mature / non mature estates). What the pyramids do tell us right now is the breakdown of the age groups in each planning area. this can be relevant for city planners to plan for age appropiate amenities in each PA. for example elderly care facilities in PAs with more elderly and schools in younger PA.
+
+Specific to the 9 most populated areas in Singgapore, we can observe that the population replacement rate is not replacing fast enough, with a constrictive trend in Woodlands, Choa Chu Kang, Hougang, Sengkang, Yishun and Tampines, Bedok and Jurong West presents a nearly inverted inverted pyramid. only Punggol looks like it has an Expansive trend. It is also interesting to note across all the planning areas have a large number of population difference in the 30s range. This could be due to Singaporeans getting married and moving in to this areas. as this coincides with the average Singaporean Age to get married.

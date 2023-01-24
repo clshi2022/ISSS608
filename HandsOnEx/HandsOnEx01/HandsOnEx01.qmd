@@ -1,3 +1,11 @@
 ---
 title: "HandsOnEx01"
+author: "Chee Liang Liang"
+date: "`r Sys.Date()`"
 ---
+
+```{r}
+pacman::p_load(tidyverse)
+```
+
+Importing the data

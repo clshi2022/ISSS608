@@ -142,19 +142,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#cleaning-up-the-data" id="toc-cleaning-up-the-data" class="nav-link" data-scroll-target="#cleaning-up-the-data">Cleaning up the data</a></li>
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><img src="images/image-1570625322.png" class="img-fluid"></a></li>
   <li><a href="#creating-new-fields" id="toc-creating-new-fields" class="nav-link" data-scroll-target="#creating-new-fields">Creating new fields</a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><img src="images/image-467436628.png" class="img-fluid"></a></li>
-  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"><img src="images/image-114243457.png" class="img-fluid"></a></li>
-  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"><img src="images/image-362852113.png" class="img-fluid"></a></li>
-  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4"></a></li>
+  <li><a href="#exporting-out-from-tableau-prep-builder" id="toc-exporting-out-from-tableau-prep-builder" class="nav-link" data-scroll-target="#exporting-out-from-tableau-prep-builder">Exporting out from Tableau Prep Builder</a></li>
   </ul></li>
   <li><a href="#visualising-the-data" id="toc-visualising-the-data" class="nav-link" data-scroll-target="#visualising-the-data">Visualising the data</a>
   <ul class="collapse">
-  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5"><img src="images/image-359026828.png" class="img-fluid"></a></li>
-  <li><a href="#create-overview" id="toc-create-overview" class="nav-link" data-scroll-target="#create-overview">Create Overview</a></li>
-  <li><a href="#create-age-sex-pyramid" id="toc-create-age-sex-pyramid" class="nav-link" data-scroll-target="#create-age-sex-pyramid">Create Age-Sex pyramid</a></li>
-  <li><a href="#creating-a-story" id="toc-creating-a-story" class="nav-link" data-scroll-target="#creating-a-story">Creating a Story</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#creating-a-trellis-layout" id="toc-creating-a-trellis-layout" class="nav-link" data-scroll-target="#creating-a-trellis-layout">Creating a Trellis Layout</a></li>
+  <li><a href="#creating-the-population-visualisaion" id="toc-creating-the-population-visualisaion" class="nav-link" data-scroll-target="#creating-the-population-visualisaion">Creating the population visualisaion</a></li>
+  <li><a href="#adding-labels" id="toc-adding-labels" class="nav-link" data-scroll-target="#adding-labels">Adding Labels</a></li>
+  <li><a href="#labeling-each-box-of-a-trellis-display-in-tableau" id="toc-labeling-each-box-of-a-trellis-display-in-tableau" class="nav-link" data-scroll-target="#labeling-each-box-of-a-trellis-display-in-tableau">Labeling each box of a Trellis Display in Tableau</a></li>
   </ul></li>
+  <li><a href="#creating-a-dashboard" id="toc-creating-a-dashboard" class="nav-link" data-scroll-target="#creating-a-dashboard">Creating a Dashboard</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   </ul>
 </nav>
     </div>
@@ -216,65 +214,142 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="creating-new-fields" class="level3">
 <h3 class="anchored" data-anchor-id="creating-new-fields">Creating new fields</h3>
-</section>
-<section id="section-1" class="level3">
-<h3 class="anchored" data-anchor-id="section-1"><img src="images/image-467436628.png" class="img-fluid"></h3>
-</section>
-<section id="section-2" class="level3">
-<h3 class="anchored" data-anchor-id="section-2"><img src="images/image-114243457.png" class="img-fluid"></h3>
-</section>
-<section id="section-3" class="level3">
-<h3 class="anchored" data-anchor-id="section-3"><img src="images/image-362852113.png" class="img-fluid"></h3>
-<p><img src="images/image-204632567.png" class="img-fluid"></p>
+<p>Tableau is unable to sort the Male and Females into two columns as per an Age-Sex Pyramid, hence we would need to create 2 more values for the male and female population respectively and display them separately in Tableau later.</p>
+<p><code>Right click on "Sex" column &gt; select "Calculated Field" &gt; "Custom Calculation</code></p>
+<p><img src="images/image-467436628.png" class="img-fluid"></p>
+<p>In the dialog box that pops up, key in</p>
+<p><code>IF [Sex] = 'Males' THEN [Pop] END</code></p>
+<p><img src="images/image-114243457.png" class="img-fluid"></p>
+<p>Repeat the same process for Females</p>
+<p><img src="images/image-362852113.png" class="img-fluid"></p>
+<p>We also see that the Age Group consists of underscores as shown below, we will use “edit field” to replace the “_” with spaces instead. Use the following code:</p>
+<p><code>Replace([AG],'_',' ')</code></p>
 <p><img src="images/image-1652373985.png" class="img-fluid"></p>
-<p><img src="images/image-1505675631.png" class="img-fluid"></p>
+<p>There are also some Planning Areas with 0 population, like in Jurong East, Water Catchment areas. These areas would be irrelevant as we want to show the Age-Sex Pyramid for PAs in Singapore. we would now remove those 0 values by using the filter function in Tableau Prep Builder.</p>
+<p><code>Right Click on Pop &gt; "Select Filter" &gt; Select "Selcted Values"</code></p>
+<p><img src="images/image-858831415.png" class="img-fluid"></p>
+<p><code>Select "Exclude" &gt; Check "0"</code></p>
+<p><img src="images/image-470823080.png" class="img-fluid"></p>
 </section>
-<section id="section-4" class="level3">
-<h3 class="anchored" data-anchor-id="section-4"></h3>
-<p>Exporting</p>
-<p>Click the + icon next to the dataset and select output</p>
+<section id="exporting-out-from-tableau-prep-builder" class="level3">
+<h3 class="anchored" data-anchor-id="exporting-out-from-tableau-prep-builder">Exporting out from Tableau Prep Builder</h3>
+<p>We are now ready to export the cleaned data from Tableau Prep Builder and start on the visualisation in Tableau.</p>
+<p><code>Click the + icon next to the dataset and select output</code></p>
 <p><img src="images/image-1814753214.png" class="img-fluid"></p>
+<p><code>Click on the play button to create and export the file</code></p>
 <p><img src="images/image-839398350.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="visualising-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-the-data">Visualising the data</h2>
+<p>We will now carry out the visualisation in Tableau. First, we will open the file that was exported from the Tableau Prep Builder just now. It is a “Tableau Hyper” file. Just drag and drop the file into the Tableau window.</p>
 <p><img src="images/image-301990455.png" class="img-fluid"></p>
-<section id="section-5" class="level3">
-<h3 class="anchored" data-anchor-id="section-5"><img src="images/image-359026828.png" class="img-fluid"></h3>
+<p>If everything goes well, we will now see the following view.</p>
+<p><img src="images/image-359026828.png" class="img-fluid"></p>
+<section id="creating-a-trellis-layout" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-trellis-layout">Creating a Trellis Layout</h3>
+<p>In order to create a Trellis Layout, we would need to create two Calculated Fields, “Row” and “Column”. This will tell Tableau how many Rows and Columns to visualse the data.</p>
+<p><code>Click on the small triangle in the Data Box and select "Create Calculated Field" from the drop down box</code></p>
+<p><img src="images/image-100186090.png" class="img-fluid"></p>
+<p>Create the following two fields</p>
+<p><img src="images/image-1514326330.png" class="img-fluid"></p>
+<p><img src="images/image-1312812322.png" class="img-fluid"></p>
+<p>After this is done, drag Column, Row, Age Group, Male Population and Female Population into the shelf as shown below</p>
+<p><img src="images/image-1417112306.png" class="img-fluid"></p>
 </section>
-<section id="create-overview" class="level3">
-<h3 class="anchored" data-anchor-id="create-overview">Create Overview</h3>
-<p><img src="images/image-1619038247.png" class="img-fluid"></p>
-<p><img src="images/image-1061981076.png" class="img-fluid"></p>
-<p><img src="images/image-1219950638.png" class="img-fluid"></p>
-<p><img src="images/image-451698649.png" class="img-fluid"></p>
-<p><img src="images/image-1588439321.png" class="img-fluid"></p>
-<p>Do the same forfemale</p>
-<p><img src="images/image-467086526.png" class="img-fluid"></p>
-<p>Lbels</p>
+<section id="creating-the-population-visualisaion" class="level3">
+<h3 class="anchored" data-anchor-id="creating-the-population-visualisaion">Creating the population visualisaion</h3>
+<p>However this doesn’t look quite correct. The reason is because the rows and columns are not calculating based on the Planning Area. to resolve this, we need to drag the PA into the Marks Box and set Rows and Columns to calculate based on PA.</p>
+<p><code>Drag PA into Marks Box</code></p>
+<p><code>click on small triangle for Columns &gt; select Compute using &gt;select PA</code></p>
+<p><code>Repeat for Rows</code></p>
+<p><img src="images/image-1924551563.png" class="img-fluid"></p>
+<p>We should now end up with the following view. This doesn’t look like an Age-Sex Pyramid yet. We need to set the male x axis to reserve and change the colur.</p>
+<p><img src="images/image-2033169086.png" class="img-fluid"></p>
+<p><code>Right Click X axis, Male Population and select "Edit Axis"</code></p>
+<p><img src="images/image-1310157706.png" class="img-fluid"></p>
+<p><code>Check "Reversed"</code></p>
+<p><img src="images/image-1564309203.png" class="img-fluid"></p>
+<p>The chart is shaping up to look like an Age-Sex Pyramid now. let’s change the colour to make it clearer.</p>
+<p><code>Drag "Sex"  into "Color" under the Marks Box</code></p>
+<p>We now have the basic visualisation for an Age -Sex Pyramid organised into a Trellis Displpay.</p>
+<p><img src="images/image-2041642045.png" class="img-fluid"></p>
+</section>
+<section id="adding-labels" class="level3">
+<h3 class="anchored" data-anchor-id="adding-labels">Adding Labels</h3>
+<p>The chart is a bit hard to read. we should add lables showing the population numbers for the Male and Female Populations.</p>
+<p><code>Click Labels under Marks Box &gt; Check "Show mark labels"</code></p>
 <p><img src="images/image-1782012509.png" class="img-fluid"></p>
+<p>Tableau will automatically select a colour to contrast the lables, however it does not zalways work correct due to different display resolutions. If the text is a bit harder to read on your display. we can change the colours for the sex.</p>
+<p><code>click on the small triangle in the legend on the right hand side &gt; select "edit Colours" and choose whateever colour u want.</code></p>
 <p><img src="images/image-909435535.png" class="img-fluid"></p>
 <p><img src="images/image-1467485206.png" class="img-fluid"></p>
 <p><img src="images/image-1327522652.png" class="img-fluid"></p>
 <p><img src="images/image-1935234517.png" class="img-fluid"></p>
-<p><img src="images/image-1958909325.png" class="img-fluid"></p>
-<p><img src="images/image-226927459.png" class="img-fluid"></p>
-<p><img src="images/image-526814891.png" class="img-fluid"></p>
 <p><img src="images/image-1154200158.png" class="img-fluid"></p>
-<p><img src="images/image-429080452.png" class="img-fluid"></p>
+<p>The Age-Sex pyramid now shows the gender and population numbers clearly by Age-group, but is still missing the PA name.</p>
 </section>
-<section id="create-age-sex-pyramid" class="level3">
-<h3 class="anchored" data-anchor-id="create-age-sex-pyramid">Create Age-Sex pyramid</h3>
+<section id="labeling-each-box-of-a-trellis-display-in-tableau" class="level3">
+<h3 class="anchored" data-anchor-id="labeling-each-box-of-a-trellis-display-in-tableau">Labeling each box of a Trellis Display in Tableau</h3>
+<p>Labeling Trellis display boxes can be tricky. there is no straightforward way to do it in Tableau. the correct way to do it would be to use a dual axis chart. we would create a new axis and stack it with our existing chart for labeling purpose. First, we create a new axis called “Window Max”. this is done via “create calculated field” again.</p>
+<p><img src="images/image-1848560983.png" class="img-fluid"></p>
+<p>Next, we create another table called PA Label which will hold the label data</p>
+<p><img src="images/image-540903023.png" class="img-fluid"></p>
+<p>We will now drag the “Windows Max” dimension on top of the Male Column as shown below</p>
+<p><img src="images/image-495053734.png" class="img-fluid"></p>
+<p>The Shelf should now look like this</p>
+<p><img src="images/image-241144167.png" class="img-fluid"></p>
+<p>We now drag the PA Label onto the text box under “Windows Max” in Marks Box</p>
+<p><img src="images/image-1776996339.png" class="img-fluid"></p>
+<p>The final product would now look like this.</p>
+<p><img src="images/image-2145420599.png" class="img-fluid"></p>
+<p>We can now tidy the formatting by hiding unwanted headers, adding banding and adjusting the fonts to make the chart more readable before moving on to creating a dashboard</p>
 </section>
-<section id="creating-a-story" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-story">Creating a Story</h3>
 </section>
-<section id="discussion" class="level3">
-<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
+<section id="creating-a-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-dashboard">Creating a Dashboard</h2>
+<p>First, we set the desired size. i chose “Automatic” however tableau has a wide range fo options to choose from, depending on where you are intending to show the visualisation.</p>
+<p><img src="images/image-649046950.png" class="img-fluid"></p>
+<p>Next, we drag the Age Sex Pyramid into the blank dashboard</p>
+<p><img src="images/image-1247687717.png" class="img-fluid"></p>
+<p>It look fine, but we should create a proper header to inform people what the chart is about. we drag the “Text” Object to the top of the dashboard to create the header</p>
+<p><img src="images/image-1516849516.png" class="img-fluid"></p>
+<p>Finally it should look like this</p>
+<p><img src="images/image-726309750.png" class="img-fluid"></p>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>A <strong>population pyramid</strong> (age structure diagram) or “<strong>age-sex pyramid</strong>” is a graphical illustration of the distribution of a population by age groups and sex and is often used to determine the overall age distribution of a population and an indication of the reproductive capabilities. There are generally three types of population pyramid.</p>
+<table class="table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Trend (Shape)</th>
+<th>Characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Expansive (Pyramid)</td>
+<td>High Birthrates and perhaps high mortality rates. The population is replacing faster than it is dying</td>
+</tr>
+<tr class="even">
+<td>Constrictive (Square or inverted pyramid)</td>
+<td>Population is living longer, but low birth rates. population is not replacing as fast as it’s dying.</td>
+</tr>
+<tr class="odd">
+<td>Stationary (Pillar)</td>
+<td>Birthrates and Mortality rates roughly balance each other.</td>
+</tr>
+</tbody>
+</table>
+<p>While Age-sex Pyramids are often used to determine if a country’s population is replacing itself fast enough, it may not be useful to analyse the PA break down in this manner, as it is very common for Singaporean’s to move to another area once they reach certain life milestones. for example, when getting married, when their children reach primary school age, and when they reach retirement age. It might be more insightful to cross reference the age-sex pyramid with the age of the PA (mature / non mature estates). What the pyramids do tell us right now is the breakdown of the age groups in each planning area. this can be relevant for city planners to plan for age appropiate amenities in each PA. for example elderly care facilities in PAs with more elderly and schools in younger PA.</p>
+<p>Specific to the 9 most populated areas in Singgapore, we can observe that the population replacement rate is not replacing fast enough, with a constrictive trend in Woodlands, Choa Chu Kang, Hougang, Sengkang, Yishun and Tampines, Bedok and Jurong West presents a nearly inverted inverted pyramid. only Punggol looks like it has an Expansive trend. It is also interesting to note across all the planning areas have a large number of population difference in the 30s range. This could be due to Singaporeans getting married and moving in to this areas. as this coincides with the average Singaporean Age to get married.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
