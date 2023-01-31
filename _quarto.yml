@@ -5,16 +5,16 @@ website:
   title: "ISSS608"
   navbar:
     left:
-    - text: "Hands-on Exercise"
+    - text: "Hands-on Exercises"
       menu:
       - text: "Hands-on Exercise 01"
         href: "HandsOnEx/HandsOnEx01/HandsOnEx01.qmd"
-    - text: "In-class Exercise"
+    - text: "In-class Exercises"
       menu:
       - text: "In-class Exercise 03"
         href: "InClassEx/InClassEx03/InClassEx03.qmd"
         
-    - text: "Take Home Exercise"
+    - text: "Take Home Exercises"
       menu:
       - text: "Take Home Exercise 01"
         href: "TakeHomeEx/TakeHomeEx01/TakeHomeEx01.qmd"
@@ -25,7 +25,7 @@ website:
 
 format:
   html:
-    theme: flat
+    theme: flatly
     css: styles.css
     toc: true
 

@@ -1,0 +1,80 @@
+---
+title: "Take Home Exercise 02 - Critque of Age-Sex Visualisation and Remake in 'R'"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    warning: false
+author: "Shi Chee Liang"
+date: 28 January 2023
+date-modified: "`r Sys.Date()`"
+---
+
+## Task
+
+The Take Home Exercise consists of 2 main tasks:
+
+-   Select and critique the Tableau Visualisation from one classmate based on the concepts of clarity and aesthetics covered in class.
+
+-   Remake the original design by using ggplot2, ggplot2 extensions and tidyverse packages (Includes preparing a sketch for the remake)
+
+## Visualisation Critique
+
+The following Tableau Visualisation was selected. Observations are highlighted with a box and corresponding serial indicators for reference to the detailed comments below
+
+![](images/image-1480830338.png)
+
+### Clarity
+
+**(a)** [Lack of details in title]{.underline}. The title does not tell me what the graph is trying to show, which country or area it is for and is also naming the graph type wrongly. A possible title could have been:
+
+::: callout-note
+**Age-Sex Pyramid for Singapore**
+
+*Top 9 most populated planning area - June 2022*
+:::
+
+**(b)** [Bins are too large]{.underline}. To be fair, it's not totally wrong to use a bin of 10 years, however this choice coupled with the choice of layout (elaborated below under Aesthetic) makes the Age-Sex Pyramid too "flat" and difficult to visually interpret the age-sex patterns.
+
+**(c)** [Irrelevant data]{.underline}. An average of the population in various age group was shown for the males and females in each Planning Area respectively. this information is not relevant to identifying the patterns from Age-Sex Pyramids and furthermore does not provide further insights for actions and planning.
+
+**(d)** [Irrelevant visualisation]{.underline}. A box plot was overlaid over the age sex pyramid. Similiar to the above point, it does not help with interpretation and runs the risk of making the graph more messy. the boxplot itself also does not serve it's own purpose because we are unable to check the details on the limits of the boxplots
+
+**(e)** [Irrelevant reference line]{.underline}. A reference line was drawn from y-axis somewhere between 11k and 12k population. This reference line serves no purpose. There was no description on what the line is supposed to indicate or tell the reader.
+
+### Aesthetics
+
+**(a)** [Overly wide layout]{.underline}. The choice of layout (1 chart wide) is too wide, causing the Age-Sex Pyramid to be stretched out, making it ugly and difficult to interpret.
+
+**(b)** [Unclear segregation between axis and graph area]{.underline}. There is currently no segreation between the graph area and the axis. it would be a good idea to give the axis another colour (e.g. Light Grey) so that it's easier and mroe pleasant to read. The brain would not need to work extra to figure out where the graph and the axis cuts.
+
+**(c)** [Unclear segregation between axis and graph area]{.underline}. Similar to the previous point, the segregation between the axis and the graph area is not clear. recommended to give the axis another colour.
+
+### Proposed Improvements
+
+A sketch of the proposed remake is drawn up as shown below.
+
+## Remake of the visualistion in 'R' using ggplot2
+
+### Tools used
+
+-   Tableau Prep Builder version 2022.4: Used for data cleaning to removed unnecessary fields and filtering of relevant fields
+
+-   Tableau version 2022.4
+
+### Data Used
+
+*Singapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2022* should be used to prepare the analytical visualisation. It is available at [Department of Statistics, Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)(in short SingStat).
+
+### Importing and preparing the Data Set
+
+#### Importing the data
+
+#### preparing the data
+
+### Visualising the Age-Sex Pyramid in a Trellis Display
+
+Creating the plot
+
+Adding
