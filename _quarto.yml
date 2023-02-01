@@ -18,6 +18,8 @@ website:
       menu:
       - text: "Take Home Exercise 01"
         href: "TakeHomeEx/TakeHomeEx01/TakeHomeEx01.qmd"
+      - text: "Take Home Exercise 02"
+        href: "TakeHomeEx/TakeHomeEx02/TakeHomeEx02.qmd"
     right:
       - href: index.qmd
         text: Home

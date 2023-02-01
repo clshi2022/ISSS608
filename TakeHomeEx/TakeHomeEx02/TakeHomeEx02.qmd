@@ -6,6 +6,7 @@ format:
     code-fold: true
     code-summary: "Show the code"
     warning: false
+    message: false
 author: "Shi Chee Liang"
 date: 28 January 2023
 date-modified: "`r Sys.Date()`"
@@ -43,6 +44,10 @@ The following Tableau Visualisation was selected. Observations are highlighted w
 
 **(e)** [Irrelevant reference line]{.underline}. A reference line was drawn from y-axis somewhere between 11k and 12k population. This reference line serves no purpose. There was no description on what the line is supposed to indicate or tell the reader.
 
+::: callout-tip
+Whatever doesn't add; Subtracts
+:::
+
 ### Aesthetics
 
 **(a)** [Overly wide layout]{.underline}. The choice of layout (1 chart wide) is too wide, causing the Age-Sex Pyramid to be stretched out, making it ugly and difficult to interpret.
@@ -59,9 +64,23 @@ A sketch of the proposed remake is drawn up as shown below.
 
 ### Tools used
 
--   Tableau Prep Builder version 2022.4: Used for data cleaning to removed unnecessary fields and filtering of relevant fields
+-   [R Binaries](https://cran.r-project.org/) 4.2.2 on Windows 11 Professional
 
--   Tableau version 2022.4
+-   RStudio 2022.12.0 build 353 on Windows 11 Professional (RStudio has been renamed as [Posit](https://posit.co/))
+
+### Libraries
+
+The R packages we'll use for this analysis are:
+
+-   [tidyverse](https://www.tidyverse.org/) - a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
+
+-   [ggplot2](https://ggplot2.tidyverse.org/) - a system for declaratively creating graphics, based on The Grammar of Graphics (ggplot2 is included in the tidyverse package, i'm highlighting it here for emphasis, since it's our main tool for visualisation)
+
+-   [[ggthemes]{.underline}](https://jrnold.github.io/ggthemes/reference/index.html) - The ggthemes package provides extra themes, geoms, and scales for the ggplot2 package
+
+-   [[ggiraph]{.underline}](https://davidgohel.github.io/ggiraph/) - a package that provides interactive elements to ggplot like animations and tooltips (was not used after experimenting with it, leaving it here for reference)
+
+-   [[plotly]{.underline}](https://plotly.com/r/) - another package that provides interactive elements to ggplot (was not used after experimenting with it, leaving it here for reference)
 
 ### Data Used
 
@@ -69,12 +88,143 @@ A sketch of the proposed remake is drawn up as shown below.
 
 ### Importing and preparing the Data Set
 
-#### Importing the data
+#### loading packages
 
-#### preparing the data
+We first load the required packages.
+
+::: callout-note
+ggplot2 is already included in tidyverse, hence there is no need to load it seperately
+:::
+
+```{r}
+pacman::p_load(tidyverse, ggthemes, ggiraph, plotly)
+```
+
+#### Importing and tidying the data
+
+The data set was first imported using the `read_csv()` function.
+
+```{r}
+sg <- read_csv('data/respopagesextod2022.csv')
+```
+
+After importing, we use `str()` to check the contents of the data set and see if anything needs to be corrected
+
+```{r}
+str(sg)
+```
+
+We noticed that the data set contains more data than we require for this exercise hence we will remove them using the `select()` function to only take what we need. We also take the opportunity to change the names to their full form to make them easier to understand with `names()`
+
+::: callout-note
+select() choose columns from a data set
+:::
+
+```{r}
+sgsubset <- sg %>% select(PA, AG, Sex, Pop)
+names(sgsubset) <-c('Planning_Area', 'Age_group', 'Gender', 'Population')
+```
+
+Let's now check how the Age_group is binned. it is common for them not to be in the correct logical order if they are sorted alphabetically.
+
+```{r}
+levels(factor(sgsubset$Age_group))
+```
+
+Indeed, the age group, "5_to_9" is out of place. let's use `mutate()` and `arrange()` to correct this.
+
+```{r}
+order <- c("0_to_4", "5_to_9", "10_to_14", "15_to_19", "20_to_24", "25_to_29", "30_to_34", "35_to_39", "40_to_44", "45_to_49", "50_to_54", "55_to_59", "60_to_64", "65_to_69", "70_to_74", "75_to_79", "80_to_84", "85_to_89", "90_and_over")
+
+sgsubset <- sgsubset %>%
+  mutate(Age_group =  factor(Age_group, levels = order)) %>%
+  arrange(Age_group)
+
+levels(sgsubset$Age_group)
+```
+
+Now the data set is tidied and ready for further preparation before visualisation.
+
+#### Preparing the data for visualisation
+
+This exercise only requires us to show the Age-Sex Pyramid for 9 selected planning areas in Singapore. we will choose the top by planning areas by total population. first we would need to find out which are the 9 most populous planning areas with the following code chunk.
+
+```{r}
+Check_PA <- sgsubset %>%
+  group_by(`Planning_Area`) %>%
+  summarise(sum_pop = sum(Population), .groups = 'drop') %>%
+  arrange(sum_pop,.by_group = TRUE) %>%
+  top_n(9) %>%
+  ungroup()
+
+Check_PA
+```
+
+We can see that the 9 most populous planning areas are, 'Bedok', 'Tampines', 'Jurong West', 'Sengkang', 'Woodlands', 'Hougang', 'Yishun', 'Choa Chu Kang', 'Punggol'. we will now use `filter()` to only select those rows of data that belongs to these planning areas.
+
+::: callout-note
+Filter() chooses rows from a data set
+:::
+
+```{r}
+sgsubsettop9 <- sgsubset %>% filter(`Planning_Area` %in% c('Bedok', 'Tampines', 'Jurong West', 'Sengkang', 'Woodlands', 'Hougang', 'Yishun', 'Choa Chu Kang', 'Punggol'))
+```
+
+We now have everything we need to visualise the data.
 
 ### Visualising the Age-Sex Pyramid in a Trellis Display
 
-Creating the plot
+The first thing to do when we want to visualise anything in 'R' with ggplot is to define a ggplot object. The ggplot object consists of a few layers, 'Data', 'Aesthetics', 'Geometrics', 'Facets', 'Statistics' 'Coordinate Systems' and 'Themes'. The first 3 layers are the most important.
 
-Adding
+In the code hunk below, we set the 'data' to sgsubsettop9 and specify which columns to use, then specify what 'geometrics' to use, before usiing coord flip to turn the bar `horizonal()` and `facet_warp()` to show the 9 planning areas in a trellis display.
+
+#### Defining ggplot object
+
+::: callout-important
+For an Age-Sex pyramid, it is important to flip one of the gender to the left side of 0 by making the values negative.
+:::
+
+```{r}
+agesexP <- ggplot(sgsubsettop9,aes(x = `Age_group`, y = Population,fill = Gender)) + 
+  geom_bar(data = subset(sgsubsettop9,Gender == 'Females'), stat = 'identity') + 
+  geom_bar(data = subset(sgsubsettop9,Gender == 'Males'), stat = 'identity', mapping = aes(y = -(Population))) + 
+  coord_flip() + 
+  facet_wrap(~`Planning_Area`,ncol = 3)
+
+#i can't get the custom y scales to work with facet_warp, preserving the code here in case i learn the fix to this. this was originally intended to minimise the zeros, making it easier to read in intervals of '50 thousands'
+#   scale_y_continuous(breaks = seq(-150000, 150000, 50000),
+#                      labels = paste0(as.character(c(seq(150, 0, -50), seq(50, 150, 50)))))
+```
+
+After the ggplot object has been created, we now try to beautify the plot by adding themes via ggthemes as well as giving it proper titles and labels
+
+#### Beautifying and drawing the visualisation
+
+::: callout-note
+The default quarto figure size for code output is too small, we will use the RMarkdown commands, fig-height and fig-width to adjust the figure size
+:::
+
+```{r}
+#| fig-height: 12
+#| fig-width: 12
+
+agesexP +
+  ggtitle("Singapore Population Pyramid by Age Cohort, June 2022") + 
+  theme_economist() +
+  theme(plot.title = element_text(hjust = 0.5, vjust = 3)) + 
+  xlab("Age Group") + 
+  ylab("Population")+
+  scale_fill_manual(values=c('lightpink2','steelblue3'))
+```
+
+::: callout-note
+I experimented with ggplotly and ggiraph but can't get the interactive elements and scales to show up correctly together with the other facets and themes.
+:::
+
+### Comparisons between using Tableau and 'R'
+
+Tableau provides a visual and convenient way to create presentation ready visualisations without any coding knowledge. This makes tableau much more accessible to the general public and comapnies.
+
+On the other hand, visualisations in 'R' can achieve the same if not better visualisation that Tableau with much more granular control over the various attributes and objects shown. However the caveat is that coding knowledge is required and some of the packages may not always work well with each other without more extensive research. for example, i was unable to get the ggthemes package to work with ggiraph and plotly. i also faced problems in getting `scale_y_continuous()` to work with `facet_wrap()`.
+
+In the end, which tool to use will probably end up being determined by an individual's proficiency with either tools.

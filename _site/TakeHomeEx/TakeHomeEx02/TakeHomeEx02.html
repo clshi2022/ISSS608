@@ -22,6 +22,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -112,6 +175,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../TakeHomeEx/TakeHomeEx01/TakeHomeEx01.html">
  <span class="dropdown-text">Take Home Exercise 01</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../TakeHomeEx/TakeHomeEx02/TakeHomeEx02.html">
+ <span class="dropdown-text">Take Home Exercise 02</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -149,9 +216,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#remake-of-the-visualistion-in-r-using-ggplot2" id="toc-remake-of-the-visualistion-in-r-using-ggplot2" class="nav-link" data-scroll-target="#remake-of-the-visualistion-in-r-using-ggplot2">Remake of the visualistion in ‘R’ using ggplot2</a>
   <ul class="collapse">
   <li><a href="#tools-used" id="toc-tools-used" class="nav-link" data-scroll-target="#tools-used">Tools used</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries">Libraries</a></li>
   <li><a href="#data-used" id="toc-data-used" class="nav-link" data-scroll-target="#data-used">Data Used</a></li>
   <li><a href="#importing-and-preparing-the-data-set" id="toc-importing-and-preparing-the-data-set" class="nav-link" data-scroll-target="#importing-and-preparing-the-data-set">Importing and preparing the Data Set</a></li>
   <li><a href="#visualising-the-age-sex-pyramid-in-a-trellis-display" id="toc-visualising-the-age-sex-pyramid-in-a-trellis-display" class="nav-link" data-scroll-target="#visualising-the-age-sex-pyramid-in-a-trellis-display">Visualising the Age-Sex Pyramid in a Trellis Display</a></li>
+  <li><a href="#comparisons-between-using-tableau-and-r" id="toc-comparisons-between-using-tableau-and-r" class="nav-link" data-scroll-target="#comparisons-between-using-tableau-and-r">Comparisons between using Tableau and ‘R’</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -185,7 +254,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 31, 2023</p>
+      <p class="date-modified">February 1, 2023</p>
     </div>
   </div>
     
@@ -227,6 +296,19 @@ Note
 <p><strong>(c)</strong> <u>Irrelevant data</u>. An average of the population in various age group was shown for the males and females in each Planning Area respectively. this information is not relevant to identifying the patterns from Age-Sex Pyramids and furthermore does not provide further insights for actions and planning.</p>
 <p><strong>(d)</strong> <u>Irrelevant visualisation</u>. A box plot was overlaid over the age sex pyramid. Similiar to the above point, it does not help with interpretation and runs the risk of making the graph more messy. the boxplot itself also does not serve it’s own purpose because we are unable to check the details on the limits of the boxplots</p>
 <p><strong>(e)</strong> <u>Irrelevant reference line</u>. A reference line was drawn from y-axis somewhere between 11k and 12k population. This reference line serves no purpose. There was no description on what the line is supposed to indicate or tell the reader.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Whatever doesn’t add; Subtracts</p>
+</div>
+</div>
 </section>
 <section id="aesthetics" class="level3">
 <h3 class="anchored" data-anchor-id="aesthetics">Aesthetics</h3>
@@ -244,8 +326,19 @@ Note
 <section id="tools-used" class="level3">
 <h3 class="anchored" data-anchor-id="tools-used">Tools used</h3>
 <ul>
-<li><p>Tableau Prep Builder version 2022.4: Used for data cleaning to removed unnecessary fields and filtering of relevant fields</p></li>
-<li><p>Tableau version 2022.4</p></li>
+<li><p><a href="https://cran.r-project.org/">R Binaries</a> 4.2.2 on Windows 11 Professional</p></li>
+<li><p>RStudio 2022.12.0 build 353 on Windows 11 Professional (RStudio has been renamed as <a href="https://posit.co/">Posit</a>)</p></li>
+</ul>
+</section>
+<section id="libraries" class="level3">
+<h3 class="anchored" data-anchor-id="libraries">Libraries</h3>
+<p>The R packages we’ll use for this analysis are:</p>
+<ul>
+<li><p><a href="https://www.tidyverse.org/">tidyverse</a> - a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.</p></li>
+<li><p><a href="https://ggplot2.tidyverse.org/">ggplot2</a> - a system for declaratively creating graphics, based on The Grammar of Graphics (ggplot2 is included in the tidyverse package, i’m highlighting it here for emphasis, since it’s our main tool for visualisation)</p></li>
+<li><p><a href="https://jrnold.github.io/ggthemes/reference/index.html"><u>ggthemes</u></a> - The ggthemes package provides extra themes, geoms, and scales for the ggplot2 package</p></li>
+<li><p><a href="https://davidgohel.github.io/ggiraph/"><u>ggiraph</u></a> - a package that provides interactive elements to ggplot like animations and tooltips (was not used after experimenting with it, leaving it here for reference)</p></li>
+<li><p><a href="https://plotly.com/r/"><u>plotly</u></a> - another package that provides interactive elements to ggplot (was not used after experimenting with it, leaving it here for reference)</p></li>
 </ul>
 </section>
 <section id="data-used" class="level3">
@@ -254,17 +347,259 @@ Note
 </section>
 <section id="importing-and-preparing-the-data-set" class="level3">
 <h3 class="anchored" data-anchor-id="importing-and-preparing-the-data-set">Importing and preparing the Data Set</h3>
-<section id="importing-the-data" class="level4">
-<h4 class="anchored" data-anchor-id="importing-the-data">Importing the data</h4>
+<section id="loading-packages" class="level4">
+<h4 class="anchored" data-anchor-id="loading-packages">loading packages</h4>
+<p>We first load the required packages.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ggplot2 is already included in tidyverse, hence there is no need to load it seperately</p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, ggthemes, ggiraph, plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="preparing-the-data" class="level4">
-<h4 class="anchored" data-anchor-id="preparing-the-data">preparing the data</h4>
+<section id="importing-and-tidying-the-data" class="level4">
+<h4 class="anchored" data-anchor-id="importing-and-tidying-the-data">Importing and tidying the data</h4>
+<p>The data set was first imported using the <code>read_csv()</code> function.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/respopagesextod2022.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>After importing, we use <code>str()</code> to check the contents of the data set and see if anything needs to be corrected</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [100,928 × 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ PA  : chr [1:100928] "Ang Mo Kio" "Ang Mo Kio" "Ang Mo Kio" "Ang Mo Kio" ...
+ $ SZ  : chr [1:100928] "Ang Mo Kio Town Centre" "Ang Mo Kio Town Centre" "Ang Mo Kio Town Centre" "Ang Mo Kio Town Centre" ...
+ $ AG  : chr [1:100928] "0_to_4" "0_to_4" "0_to_4" "0_to_4" ...
+ $ Sex : chr [1:100928] "Males" "Males" "Males" "Males" ...
+ $ TOD : chr [1:100928] "HDB 1- and 2-Room Flats" "HDB 3-Room Flats" "HDB 4-Room Flats" "HDB 5-Room and Executive Flats" ...
+ $ Pop : num [1:100928] 0 10 10 30 0 50 0 0 0 0 ...
+ $ Time: num [1:100928] 2022 2022 2022 2022 2022 ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   PA = col_character(),
+  ..   SZ = col_character(),
+  ..   AG = col_character(),
+  ..   Sex = col_character(),
+  ..   TOD = col_character(),
+  ..   Pop = col_double(),
+  ..   Time = col_double()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+<p>We noticed that the data set contains more data than we require for this exercise hence we will remove them using the <code>select()</code> function to only take what we need. We also take the opportunity to change the names to their full form to make them easier to understand with <code>names()</code></p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>select() choose columns from a data set</p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sgsubset <span class="ot">&lt;-</span> sg <span class="sc">%&gt;%</span> <span class="fu">select</span>(PA, AG, Sex, Pop)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sgsubset) <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">'Planning_Area'</span>, <span class="st">'Age_group'</span>, <span class="st">'Gender'</span>, <span class="st">'Population'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Let’s now check how the Age_group is binned. it is common for them not to be in the correct logical order if they are sorted alphabetically.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">factor</span>(sgsubset<span class="sc">$</span>Age_group))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "0_to_4"      "10_to_14"    "15_to_19"    "20_to_24"    "25_to_29"   
+ [6] "30_to_34"    "35_to_39"    "40_to_44"    "45_to_49"    "5_to_9"     
+[11] "50_to_54"    "55_to_59"    "60_to_64"    "65_to_69"    "70_to_74"   
+[16] "75_to_79"    "80_to_84"    "85_to_89"    "90_and_over"</code></pre>
+</div>
+</div>
+<p>Indeed, the age group, “5_to_9” is out of place. let’s use <code>mutate()</code> and <code>arrange()</code> to correct this.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0_to_4"</span>, <span class="st">"5_to_9"</span>, <span class="st">"10_to_14"</span>, <span class="st">"15_to_19"</span>, <span class="st">"20_to_24"</span>, <span class="st">"25_to_29"</span>, <span class="st">"30_to_34"</span>, <span class="st">"35_to_39"</span>, <span class="st">"40_to_44"</span>, <span class="st">"45_to_49"</span>, <span class="st">"50_to_54"</span>, <span class="st">"55_to_59"</span>, <span class="st">"60_to_64"</span>, <span class="st">"65_to_69"</span>, <span class="st">"70_to_74"</span>, <span class="st">"75_to_79"</span>, <span class="st">"80_to_84"</span>, <span class="st">"85_to_89"</span>, <span class="st">"90_and_over"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sgsubset <span class="ot">&lt;-</span> sgsubset <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Age_group =</span>  <span class="fu">factor</span>(Age_group, <span class="at">levels =</span> order)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Age_group)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(sgsubset<span class="sc">$</span>Age_group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "0_to_4"      "5_to_9"      "10_to_14"    "15_to_19"    "20_to_24"   
+ [6] "25_to_29"    "30_to_34"    "35_to_39"    "40_to_44"    "45_to_49"   
+[11] "50_to_54"    "55_to_59"    "60_to_64"    "65_to_69"    "70_to_74"   
+[16] "75_to_79"    "80_to_84"    "85_to_89"    "90_and_over"</code></pre>
+</div>
+</div>
+<p>Now the data set is tidied and ready for further preparation before visualisation.</p>
+</section>
+<section id="preparing-the-data-for-visualisation" class="level4">
+<h4 class="anchored" data-anchor-id="preparing-the-data-for-visualisation">Preparing the data for visualisation</h4>
+<p>This exercise only requires us to show the Age-Sex Pyramid for 9 selected planning areas in Singapore. we will choose the top by planning areas by total population. first we would need to find out which are the 9 most populous planning areas with the following code chunk.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Check_PA <span class="ot">&lt;-</span> sgsubset <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Planning_Area</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sum_pop =</span> <span class="fu">sum</span>(Population), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sum_pop,<span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Check_PA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 2
+  Planning_Area sum_pop
+  &lt;chr&gt;           &lt;dbl&gt;
+1 Punggol        186270
+2 Choa Chu Kang  190330
+3 Yishun         222960
+4 Hougang        227540
+5 Woodlands      252510
+6 Sengkang       253120
+7 Jurong West    258540
+8 Tampines       265690
+9 Bedok          278640</code></pre>
+</div>
+</div>
+<p>We can see that the 9 most populous planning areas are, ‘Bedok’, ‘Tampines’, ‘Jurong West’, ‘Sengkang’, ‘Woodlands’, ‘Hougang’, ‘Yishun’, ‘Choa Chu Kang’, ‘Punggol’. we will now use <code>filter()</code> to only select those rows of data that belongs to these planning areas.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Filter() chooses rows from a data set</p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sgsubsettop9 <span class="ot">&lt;-</span> sgsubset <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="st">`</span><span class="at">Planning_Area</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Bedok'</span>, <span class="st">'Tampines'</span>, <span class="st">'Jurong West'</span>, <span class="st">'Sengkang'</span>, <span class="st">'Woodlands'</span>, <span class="st">'Hougang'</span>, <span class="st">'Yishun'</span>, <span class="st">'Choa Chu Kang'</span>, <span class="st">'Punggol'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>We now have everything we need to visualise the data.</p>
 </section>
 </section>
 <section id="visualising-the-age-sex-pyramid-in-a-trellis-display" class="level3">
 <h3 class="anchored" data-anchor-id="visualising-the-age-sex-pyramid-in-a-trellis-display">Visualising the Age-Sex Pyramid in a Trellis Display</h3>
-<p>Creating the plot</p>
-<p>Adding</p>
+<p>The first thing to do when we want to visualise anything in ‘R’ with ggplot is to define a ggplot object. The ggplot object consists of a few layers, ‘Data’, ‘Aesthetics’, ‘Geometrics’, ‘Facets’, ‘Statistics’ ‘Coordinate Systems’ and ‘Themes’. The first 3 layers are the most important.</p>
+<p>In the code hunk below, we set the ‘data’ to sgsubsettop9 and specify which columns to use, then specify what ‘geometrics’ to use, before usiing coord flip to turn the bar <code>horizonal()</code> and <code>facet_warp()</code> to show the 9 planning areas in a trellis display.</p>
+<section id="defining-ggplot-object" class="level4">
+<h4 class="anchored" data-anchor-id="defining-ggplot-object">Defining ggplot object</h4>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For an Age-Sex pyramid, it is important to flip one of the gender to the left side of 0 by making the values negative.</p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>agesexP <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sgsubsettop9,<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Age_group</span><span class="st">`</span>, <span class="at">y =</span> Population,<span class="at">fill =</span> Gender)) <span class="sc">+</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(sgsubsettop9,Gender <span class="sc">==</span> <span class="st">'Females'</span>), <span class="at">stat =</span> <span class="st">'identity'</span>) <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(sgsubsettop9,Gender <span class="sc">==</span> <span class="st">'Males'</span>), <span class="at">stat =</span> <span class="st">'identity'</span>, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> <span class="sc">-</span>(Population))) <span class="sc">+</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="st">`</span><span class="at">Planning_Area</span><span class="st">`</span>,<span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#i can't get the custom y scales to work with facet_warp, preserving the code here in case i learn the fix to this. this was originally intended to minimise the zeros, making it easier to read in intervals of '50 thousands'</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_continuous(breaks = seq(-150000, 150000, 50000),</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                      labels = paste0(as.character(c(seq(150, 0, -50), seq(50, 150, 50)))))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>After the ggplot object has been created, we now try to beautify the plot by adding themes via ggthemes as well as giving it proper titles and labels</p>
+</section>
+<section id="beautifying-and-drawing-the-visualisation" class="level4">
+<h4 class="anchored" data-anchor-id="beautifying-and-drawing-the-visualisation">Beautifying and drawing the visualisation</h4>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The default quarto figure size for code output is too small, we will use the RMarkdown commands, fig-height and fig-width to adjust the figure size</p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>agesexP <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Singapore Population Pyramid by Age Cohort, June 2022"</span>) <span class="sc">+</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>() <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">3</span>)) <span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age Group"</span>) <span class="sc">+</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Population"</span>)<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">'lightpink2'</span>,<span class="st">'steelblue3'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="TakeHomeEx02_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="1152"></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I experimented with ggplotly and ggiraph but can’t get the interactive elements and scales to show up correctly together with the other facets and themes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="comparisons-between-using-tableau-and-r" class="level3">
+<h3 class="anchored" data-anchor-id="comparisons-between-using-tableau-and-r">Comparisons between using Tableau and ‘R’</h3>
+<p>Tableau provides a visual and convenient way to create presentation ready visualisations without any coding knowledge. This makes tableau much more accessible to the general public and comapnies.</p>
+<p>On the other hand, visualisations in ‘R’ can achieve the same if not better visualisation that Tableau with much more granular control over the various attributes and objects shown. However the caveat is that coding knowledge is required and some of the packages may not always work well with each other without more extensive research. for example, i was unable to get the ggthemes package to work with ggiraph and plotly. i also faced problems in getting <code>scale_y_continuous()</code> to work with <code>facet_wrap()</code>.</p>
+<p>In the end, which tool to use will probably end up being determined by an individual’s proficiency with either tools.</p>
 
 
 </section>
