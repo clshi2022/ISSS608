@@ -459,7 +459,7 @@ Note
 </section>
 <section id="preparing-the-data-for-visualisation" class="level4">
 <h4 class="anchored" data-anchor-id="preparing-the-data-for-visualisation">Preparing the data for visualisation</h4>
-<p>This exercise only requires us to show the Age-Sex Pyramid for 9 selected planning areas in Singapore. we will choose the top by planning areas by total population. first we would need to find out which are the 9 most populous planning areas with the following code chunk.</p>
+<p>This exercise only requires us to show the Age-Sex Pyramid for 9 selected planning areas in Singapore. we will choose the top 9 by planning areas by total population. first we would need to find out which are the 9 most populous planning areas with the following code chunk.</p>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
@@ -564,7 +564,7 @@ Note
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>agesexP <span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Singapore Population Pyramid by Age Cohort, June 2022"</span>) <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Singapore Age-Sex Pyramid (top 9 populous Planning Area) - June 2022"</span>) <span class="sc">+</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>() <span class="sc">+</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">3</span>)) <span class="sc">+</span> </span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Age Group"</span>) <span class="sc">+</span> </span>

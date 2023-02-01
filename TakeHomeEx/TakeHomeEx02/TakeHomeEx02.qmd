@@ -143,7 +143,7 @@ Now the data set is tidied and ready for further preparation before visualisatio
 
 #### Preparing the data for visualisation
 
-This exercise only requires us to show the Age-Sex Pyramid for 9 selected planning areas in Singapore. we will choose the top by planning areas by total population. first we would need to find out which are the 9 most populous planning areas with the following code chunk.
+This exercise only requires us to show the Age-Sex Pyramid for 9 selected planning areas in Singapore. we will choose the top 9 by planning areas by total population. first we would need to find out which are the 9 most populous planning areas with the following code chunk.
 
 ```{r}
 Check_PA <- sgsubset %>%
@@ -205,7 +205,7 @@ The default quarto figure size for code output is too small, we will use the RMa
 #| fig-width: 12
 
 agesexP +
-  ggtitle("Singapore Population Pyramid by Age Cohort, June 2022") + 
+  ggtitle("Singapore Age-Sex Pyramid (top 9 populous Planning Area) - June 2022") + 
   theme_economist() +
   theme(plot.title = element_text(hjust = 0.5, vjust = 3)) + 
   xlab("Age Group") + 
