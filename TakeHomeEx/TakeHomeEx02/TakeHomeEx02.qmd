@@ -18,7 +18,7 @@ The Take Home Exercise consists of 2 main tasks:
 
 -   Select and critique the Tableau Visualisation from one classmate based on the concepts of clarity and aesthetics covered in class.
 
--   Remake the original design by using ggplot2, ggplot2 extensions and tidyverse packages (Includes preparing a sketch for the remake)
+-   Remake the original design by using ggplot2, ggplot2 extensions and tidyverse packages.
 
 ## Visualisation Critique
 
@@ -54,13 +54,7 @@ Whatever doesn't add; Subtracts
 
 **(b)** [Unclear segregation between axis and graph area]{.underline}. There is currently no segreation between the graph area and the axis. it would be a good idea to give the axis another colour (e.g. Light Grey) so that it's easier and mroe pleasant to read. The brain would not need to work extra to figure out where the graph and the axis cuts.
 
-**(c)** [Unclear segregation between axis and graph area]{.underline}. Similar to the previous point, the segregation between the axis and the graph area is not clear. recommended to give the axis another colour.
-
-### Proposed Improvements
-
-A sketch of the proposed remake is drawn up as shown below.
-
-## Remake of the visualistion in 'R' using ggplot2
+**(c)** [Unclear segregation between axis and graph area]{.underline}. Similar to the previous point, the segregation between the axis and the graph area is not clear. recommended to give the axis another colour.Remake of the visualistion in 'R' using ggplot2.
 
 ### Tools used
 
