@@ -54,7 +54,9 @@ Whatever doesn't add; Subtracts
 
 **(b)** [Unclear segregation between axis and graph area]{.underline}. There is currently no segreation between the graph area and the axis. it would be a good idea to give the axis another colour (e.g. Light Grey) so that it's easier and mroe pleasant to read. The brain would not need to work extra to figure out where the graph and the axis cuts.
 
-**(c)** [Unclear segregation between axis and graph area]{.underline}. Similar to the previous point, the segregation between the axis and the graph area is not clear. recommended to give the axis another colour.Remake of the visualistion in 'R' using ggplot2.
+**(c)** [Unclear segregation between axis and graph area]{.underline}. Similar to the previous point, the segregation between the axis and the graph area is not clear. recommended to give the axis another colour.
+
+## Remake of the visualistion in 'R' using ggplot2
 
 ### Tools used
 
