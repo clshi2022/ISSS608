@@ -25,7 +25,7 @@
     "href": "InClassEx/InClassEx04/InClassEx04.html",
     "title": "In Class Exercise 04",
     "section": "",
-    "text": "Show the code\n\"hello\"\n\n\n[1] \"hello\""
+    "text": "Importing and preparing the Data Set\n\nloading packages\nLoad the required packages.\n\n\nShow the code\npacman::p_load(tidyverse, DT, patchwork, plotly)\n\n\nLoad the Data Set\n\n\nShow the code\nexam_data <- read_csv(\"data/Exam_data.csv\")\n\n\n\n\n\nVisualise with plot_ly\n\n\nShow the code\nplot_ly(data = exam_data, \n        x = ~ENGLISH, \n        y = ~MATHS, \n        color = ~RACE)"
   },
   {
     "objectID": "index.html",
