@@ -13,7 +13,8 @@ website:
       menu:
       - text: "In-class Exercise 03"
         href: "InClassEx/InClassEx03/InClassEx03.qmd"
-        
+      - text: "In-class Exercise 04"
+        href: "InClassEx/InClassEx04/InClassEx04.qmd"
     - text: "Take Home Exercises"
       menu:
       - text: "Take Home Exercise 01"

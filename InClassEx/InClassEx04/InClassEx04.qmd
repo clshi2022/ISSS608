@@ -1,0 +1,17 @@
+---
+title: "In Class Exercise 04"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    warning: false
+    message: false
+author: "Shi Chee Liang"
+date: 02 February 2023
+date-modified: "`r Sys.Date()`"
+---
+
+```{r}
+"hello"
+```

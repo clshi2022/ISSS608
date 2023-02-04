@@ -21,6 +21,13 @@
     "text": "Installing and loading R Packages\nTwo packages will be installed and loaded. they are: tidyverse and ggiraph.\n\npacman::p_load(ggiraph, tidyverse)\n\nimporting data\n\nexam_data <- read_csv('data/Exam_data.csv')\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot(dotsize = 0.5)\n\nBin width defaults to 1/30 of the range of the data. Pick better value with\n`binwidth`.\n\n\n\n\n\n\np <- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = ID),\n    stackgroups = TRUE, \n    binwidth = 1, \n    method = \"histodot\") +\n  scale_y_continuous(NULL, \n                     breaks = NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 6,\n  height_svg = 6*0.618\n)"
   },
   {
+    "objectID": "InClassEx/InClassEx04/InClassEx04.html",
+    "href": "InClassEx/InClassEx04/InClassEx04.html",
+    "title": "In Class Exercise 04",
+    "section": "",
+    "text": "Show the code\n\"hello\"\n\n\n[1] \"hello\""
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "ISSS608",
