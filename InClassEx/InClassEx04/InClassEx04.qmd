@@ -30,7 +30,7 @@ Load the Data Set
 exam_data <- read_csv("data/Exam_data.csv")
 ```
 
-###  Visualise with plot_ly
+### Visualise with plot_ly
 
 ```{r}
 plot_ly(data = exam_data, 
