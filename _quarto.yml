@@ -30,7 +30,7 @@ website:
 
 format:
   html:
-    theme: flatly
+    theme: slate
     css: styles.css
     toc: true
 

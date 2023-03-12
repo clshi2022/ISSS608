@@ -1,0 +1,649 @@
+---
+title: "Take Home Exercise 03 - Putting Visual Analytics into Practical Use"
+editor: visual
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    warning: false
+    message: false
+author: "Shi Chee Liang"
+date: 15 February 2023
+date-modified: "`r Sys.Date()`"
+---
+
+## Task
+
+The task for this take home exercise is to uncover the salient patterns of the resale prices of public housing property by residential towns and estates in Singapore using appropriate analytical visualisation techniques learned in **Lesson 4: Fundamentals of Visual Analytics**.
+
+For the purpose of this study, the focus should be on **3-ROOM, 4-ROOM and 5-ROOM types**. We can choose to focus on either one housing type or multiple housing types. The study period should be on **2022**.
+
+The write-up of the take-home exercise should include but not limited to the followings:
+
+-   Describe the selection and designed consideration of the analytical data visualisation used. The discussion should limit to not more than 150 words each.
+
+-   A reproducible description of the procedures used to prepare the analytical visualisation. Please refer to the peer submission I shared.
+
+-   A write-up of not more than 100 words to discuss the patterns reveal by each analytical visualisation prepared.
+
+## Tools used
+
+-   [R Binaries](https://cran.r-project.org/) 4.2.2 on Windows 11 Professional
+
+-   RStudio 2022.12.0 build 353 on Windows 11 Professional (RStudio has been renamed as [Posit](https://posit.co/))
+
+## Libraries
+
+The R packages we'll use for this analysis are:
+
+-   [tidyverse](https://www.tidyverse.org/) - a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
+
+-   [ggplot2](https://ggplot2.tidyverse.org/) - a system for declaratively creating graphics, based on The Grammar of Graphics (ggplot2 is included in the tidyverse package, i'm highlighting it here for emphasis, since it's our main tool for visualisation).
+
+-   [[ggrepel]{.underline}](ggrepel%20provides%20geoms%20for%20ggplot2%20to%20repel%20overlapping%20text%20labels:) - ggrepel provides geoms for ggplot2 to repel overlapping text labels. Text labels repel away from each other, away from data points, and away from edges of the plotting area.
+
+-   [[ggiraph]{.underline}](https://davidgohel.github.io/ggiraph/) - a package that provides interactive elements to ggplot like animations and tooltips (was not used after experimenting with it, leaving it here for reference).
+
+-   [[plotly]{.underline}](https://plotly.com/r/) - another package that provides interactive elements to ggplot.
+
+-   [ggstatplot](https://indrajeetpatil.github.io/ggstatsplot/) - an extension of ggplot2 package for creating graphics with details from statistical tests included in the plots themselves and targeted primarily at behavioral sciences community to provide a one-line code to produce information-rich plots.
+
+## Data Used
+
+*Singapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2022* should be used to prepare the analytical visualisation. It is available at [Department of Statistics, Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)(in short SingStat).
+
+## Importing and preparing the Data Set
+
+### loading packages
+
+We first load the required packages.
+
+```{r}
+pacman::p_load(tidyverse, add2ggplot, plotly, ggrepel, ggstatsplot, ggiraph)
+```
+
+Now we load the data set. The data has 147695 rows and 11 columns.
+
+```{r}
+total_Resale_Data <- read_csv('data/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv')
+```
+
+We now use the glimpse function to take a look at the features in the data set. Glimpse is very useful as it allows to have look at the type of data (number, string) and what's inside quickly.
+
+```{r}
+glimpse(total_Resale_Data)
+```
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  month is logically supposed to be an indicator for date but is currently a string. this may cause problems later on. we would deal with this later
+
+2.  storey_range logically should be continuous, however it is currently a string. there is a change that it may not be sequenced correctly. we will check this later
+
+3.  remaining_lease logically indicates a date variable, but is currently in a string format that would be difficult to manipulate. we may change this later if we deem this feature to be needed for our visualisations.
+:::
+
+### Data Wrangling
+
+I will be structuring the data wrangling in this manner (filter rows \> manipulate variables \> add features \> drop features ). This structure allows me to quickly come back to the relevant sections to add new codes should i decide to create more visualizations that data which i might have previously filtered or dropped.
+
+#### Filter required data
+
+The current task sis only focused on resales in 2022 as well as only 3, 4 and 5 room flats, hence we will filter the dataset to keep only these data first.
+
+::: callout-note
+I decided to do the filtering as the 1st step as this makes the data smaller and faster to process subsequently. Although the impact may not be so visible due to this being a smaller data set, it could make quite a big difference if the data set is large.
+:::
+
+grepl() simply searches for matches of a specified character pattern. this allows me to extract rows for 2022 without first manipulating data in the month column.
+
+```{r}
+Filtered_2022_345rm <- filter(total_Resale_Data, grepl('2022', month)
+                              & flat_type %in% c("3 ROOM", "4 ROOM","5 ROOM"))
+```
+
+Now the data set has 24,371 rows and 11 columns.
+
+#### Manipulate data
+
+Checking the storey_range feature. unique() lists out the unique instances of the values in sequence.
+
+```{r}
+unique(Filtered_2022_345rm$storey_range)
+```
+
+The storey_range is indeed sequenced wrongly. we would use factor() to correct it. factor() allows us to sequence non numerical values in a specified sequence.
+
+```{r}
+storey_correct <- c("01 TO 03", "04 TO 06", "07 TO 09", "10 TO 12", "13 TO 15", "16 TO 18", "19 TO 21", "22 TO 24", "25 TO 27", "28 TO 30", "31 TO 33", "34 TO 36", "37 TO 39", "40 TO 42", "43 TO 45", "46 TO 48", "49 TO 51")
+
+Filtered_2022_345rm <- Filtered_2022_345rm %>%
+  mutate (storey_range = factor(storey_range, levels = storey_correct)) %>%
+  ungroup()
+```
+
+We should also convert values in the month feature into proper date values
+
+```{r}
+Filtered_2022_345rm <- Filtered_2022_345rm %>%
+  mutate(month = as.Date(paste(month, "-01", sep=""),
+                         format="%Y -%m -%d"))
+```
+
+Confirming that the month feature is now date
+
+```{r}
+glimpse(Filtered_2022_345rm)
+```
+
+It would also be a good idea to convert resale price into "thousands" to make it more readable by humans rather than a whole string of numbers.
+
+```{r}
+Filtered_2022_345rm <- Filtered_2022_345rm %>%
+  mutate(priceK = round(resale_price / 1000))
+```
+
+#### Add Features
+
+There are a few features that would definitely be useful for the visualisations later. for example, it doesn't make sense to compare the resale price between 3, 4, 5 room flats as they are not apples to apples comparisons, a more sensible approach is to derive the price per square meter value to compare between these different housing types. We can always come back to this section to create more features when the need arises.
+
+```{r}
+Filtered_2022_345rm <- Filtered_2022_345rm %>%
+  mutate(price_psm = round(resale_price / floor_area_sqm)) %>%
+  mutate(priceK = round(resale_price / 1000))
+```
+
+#### Drop Features
+
+::: callout-note
+Drop column is my last step because additional columns might be created as an intermediary when we are deriving additional features in the previous step. In that sense, placing drop feature as the last step allows me to clean up the data set before visualistions. however if the original data set is huge. it might be a good idea to drop columns directly after filtering.
+:::
+
+We had already checked the features earlier that there are some features that we do not expect to be using. we will now remove them
+
+```{r}
+Filtered_2022_345rm <- Filtered_2022_345rm %>%
+  select(month, town, storey_range, flat_type, resale_price, priceK, price_psm)
+```
+
+#### Check for NA values
+
+Lastly, we will now do a sanity check for NA values.
+
+```{r}
+colSums(is.na(Filtered_2022_345rm))
+```
+
+Good! there are no NA values. The data set is now ready for further visualisations!
+
+## Visualisation of data
+
+Before we get into visualisations proper, a point should be made on visualising data. Visualisation works on the premise that the human mind is wired to quickly identify visual patterns from data that may otherwise escape the untrained eyes. However it is important to ensure that the visualised data is relevant and helpful to the user. We should not be blindly applying every visualisation technique in the book especially when it doesn't add value to understanding the data. With this in mind, i would be focusing my visualisations on those that help buying decisions and split them into the different flat types (where applicable) to allow a user to easily find what he needs. More thoughts on data visualisation would be discussed in the conclusion.Distribution of prices
+
+We will first look at an overview of the Singapore resale market in general before going into details by planning areas.
+
+### Overview of Singapore Resale Market
+
+#### Overview of Transactions by Flat Types
+
+Let's first take a look at the resale transactions of 3, 4, 5 room flats in proportion to each other
+
+```{r}
+pie345  <- Filtered_2022_345rm %>%
+  group_by(flat_type) %>%
+  summarise(count = n()) %>%
+  mutate(typepct = round(count/sum(count)*100)) %>%
+  mutate(ypos_p = rev(cumsum(rev(typepct))),
+         pos_p = typepct/2 + lead(ypos_p,1),
+         pos_p = if_else(is.na(pos_p), typepct/2, pos_p))
+# 
+ggplot(data = pie345, aes(x = "", y = typepct, fill = factor(flat_type))) +
+  geom_bar(width = 1, stat = 'identity') +
+  coord_polar(theta='y') +
+  geom_label_repel(data = pie345,
+                   aes(y = pos_p, label = paste0(typepct, "%")),
+                   size = 4.5, nudge_x = 1, color = c(1, 1, 1), show.legend = FALSE) +
+  theme_minimal()
+
+```
+
+::: {.callout-note appearance="minimal"}
+**Observation**
+
+1.  The most of transacted flat type is 4-room flat (46%) followed by 5-Room (28%) then 3-Room (26%). This suggests that for a potential buyer / seller, its probably going to be easier to make a successful transaction for a 4-Room flat.
+:::
+
+#### Distributions of Resale Prices
+
+We first check the distribution of resales prices across the various flat types to determine if mean or median prices would be more indicative
+
+```{r}
+ggplot(data = Filtered_2022_345rm, 
+       aes(x = priceK)) +
+  geom_histogram(bins = 100,            
+                 color="black",
+                 fill="#BA55D3") +
+  theme_minimal()+
+  facet_wrap(~ flat_type, nrow = 3)
+```
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  The distribution for prices across all flat types are right skewed. This suggests that outliers are skewing the data and that median price.
+
+2.  It is possible to buy a larger flat with the same price of a smaller flat in some cases.
+:::
+
+Lets also take a look at the violin chart to get a better view of the outliers.
+
+```{r}
+ggbetweenstats(
+  data = Filtered_2022_345rm,
+  x = flat_type, 
+  y = priceK)+
+  theme_minimal()
+```
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  We can see that there's quite a bit of outliers with extremely high resale prices. from the skew and the outliers , we conclude that it would be a better idea to use median price. moving ahead, the rest of this documentation will use median price wherever aggregation is necessary.
+:::
+
+::: callout-important
+In general, outliers should not be removed unless it is erroneous data. Arbitually removing outliers because it didn't fit the analyst's perceptions on how the data should be is actually biasness. There are still exceptions where it makes sense to remove non-erroneous outliers, however that would not be discussed here.
+:::
+
+::: callout-tip
+The decision on whether to use average or median is actually not as clear cut as i stated above. if the above holds true, that would mean we should usually use median most of the time as most real life data are not normally distributed.
+
+Instead the decision on which to use should depend on the contextual business case. In our property price example, the prices could range from 0 to infinity, it would hence be reasonable to assume that the data has the potential to consist of very extreme outliers with extremely high prices. Hence median price would be more indicative of the kind of price most ppl are likely to pay for a unit. However the "average" price is more common understood by the layman. this is why even though median prices are more indicative, property agents still frequently use average prices in conjunction with median prices. for our purpose of analysing the data, we would stick to median as it better represents the data.
+:::
+
+#### Median Price Trend within 2022
+
+We now take a look at the price trends of all three types of flats within the year 2022.
+
+```{r}
+# Group data by flat type
+Filtered_2022_345rm_grouped <- Filtered_2022_345rm %>%
+  group_by(flat_type,month) %>%
+  summarise(priceK = median(priceK))
+
+# Plot monthly trend by flat type
+p <-ggplot(Filtered_2022_345rm_grouped,aes(x=month, y= priceK,color = flat_type))+
+  geom_line()+
+  scale_x_date(date_labels = "%b",date_breaks = "1 months")+
+  labs(x = "Month", y =  "Median Resale Price (SGD, thousands)", title =  "Median Resale Price by Flat Type (2022)")+
+  theme_minimal()
+
+ggplotly(p, tooltip = c("month", "priceK"))
+```
+
+::: {.callout-note appearance="minimal"}
+**Observations:**
+
+1.  There is a slight trend of increasing prices across all 3 flat types within the year 2022
+:::
+
+### Singapore Resale Prices by Planning Areas
+
+Earlier, we had an overview of the Singapore Resale Market. that gives users an idea of the supply and demand of the flats in general, as well as median prices. however a buyer would also be interested in data for specific planning areas. so let's dive into more details for the data.
+
+#### Transactions by Planning Areas
+
+First, lets take a look at supply again, but by Planing areas. A pie chart would not be suitable here, given the number of planning areas. So let's look at the data with a Proportional Stacked Bar chart and a lollipop plot
+
+A Proportional stacked bar chart is used for the overview as it is better able to show the proportion of 3, 4, 5 room flats within each planning area. Proportional was chosen as some planning areas with low resale volumes like bukit timah could not be seen on the normal stacked bar chart
+
+Next the respective 3, 4, 5 rooms transactions are shown with lollipop charts as they are better able to show the difference in number of transactions compared between planning areas.
+
+::: panel-tabset
+##### Overview
+
+```{r}
+ggplot(Filtered_2022_345rm, aes(y=town, fill = flat_type))+
+  geom_bar(position = "fill")+
+    scale_fill_viridis_d(option = "D") +
+  theme_minimal() +
+  labs(title = "Flat type transaction", fill = "Flat type",
+       x = "", y = "")
+```
+
+##### 3-Room
+
+```{r}
+Filtered_2022_345rm_grouped2 <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("3 ROOM")) %>%
+  group_by(town) %>%
+  summarise(count = n())
+
+p2 <- ggplot(data = Filtered_2022_345rm_grouped2, aes(x=town,y=count)) +
+  geom_point(colour = "red") +
+  geom_segment( aes(x=town, xend=town, y=0, yend=count))+
+  labs(title = "No of Transactions", y = "", x="Planning Areas") +
+  theme_minimal() +
+  coord_flip() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+ggplotly(p2)
+```
+
+##### 4-Room
+
+```{r}
+Filtered_2022_345rm_grouped2 <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("4 ROOM")) %>%
+  group_by(town) %>%
+  summarise(count = n())
+
+p2 <- ggplot(data = Filtered_2022_345rm_grouped2, aes(x=town,y=count)) +
+  geom_point(colour = "red") +
+  geom_segment( aes(x=town, xend=town, y=0, yend=count))+
+  labs(title = "No of Transactions", y = "", x="Planning Areas") +
+  theme_minimal() +
+  coord_flip() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+ggplotly(p2)
+```
+
+##### 5-Room
+
+```{r}
+Filtered_2022_345rm_grouped2 <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("5 ROOM")) %>%
+  group_by(town) %>%
+  summarise(count = n())
+
+p2 <- ggplot(data = Filtered_2022_345rm_grouped2, aes(x=town,y=count)) +
+  geom_point(colour = "red") +
+  geom_segment( aes(x=town, xend=town, y=0, yend=count))+
+  labs(title = "No of Transactions", y = "", x="Planning Areas") +
+  theme_minimal() +
+  coord_flip() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+ggplotly(p2)
+```
+:::
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.   Bedok, Ang Mo Kio, Yishun has a high number of 3-room flat transactions, worth noting that these are usually older areas
+
+2.   Sengkang and Punggol have a high number of 4 and 5-room flat transactions. They are also the newer areas
+
+3.  Bukit Timah has the lowest transactions across all flat types.
+:::
+
+#### Price Range by planning areas
+
+A buyer would also be interested in the kind of price range that he could be expected to pay for a unit. for this, we would untilise another form of lillipop chart called the dumbell chart.
+
+A dumbbell chart visually indicates the min and max prices of units for a given feature or category. in this case we are using it to show by planning areas.
+
+::: panel-tabset
+##### Overview
+
+```{r}
+Filtered_2022_345rmRange <- Filtered_2022_345rm %>%
+  group_by(town) %>%
+  summarise(min_price = min(priceK),
+            max_price = max(priceK))
+
+p3 <- plot_ly(Filtered_2022_345rmRange) %>% 
+  add_segments(x = ~min_price, xend = ~max_price, y = ~town, yend = ~town, showlegend = FALSE) %>%
+  add_markers(x = ~min_price, y = ~town, name = "Min", color = I("#e66819")) %>%
+  add_markers(x = ~max_price, y = ~town, name = "Max", color = I("#bf0d31")) %>%
+  layout(
+    title = "Resale Price Range Aross Planning Areas (SGD, Thousands)",
+    xaxis = list(title = "Resale Price (SGD, thousands)"),
+    yaxis = list(title = "Planning Area"),
+    margin = list(l = 70)
+  )
+
+p3
+```
+
+##### 3-Room
+
+```{r}
+Filtered_2022_345rmRange <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("3 ROOM")) %>%
+  group_by(town) %>%
+  summarise(min_price = min(priceK),
+            max_price = max(priceK))
+
+p3 <- plot_ly(Filtered_2022_345rmRange) %>% 
+  add_segments(x = ~min_price, xend = ~max_price, y = ~town, yend = ~town, showlegend = FALSE) %>%
+  add_markers(x = ~min_price, y = ~town, name = "Min", color = I("#e66819")) %>%
+  add_markers(x = ~max_price, y = ~town, name = "Max", color = I("#bf0d31")) %>%
+  layout(
+    title = "Resale Price Range Aross Planning Areas (SGD, Thousands)",
+    xaxis = list(title = "Resale Price (SGD, thousands)"),
+    yaxis = list(title = "Planning Area"),
+    margin = list(l = 70)
+  )
+
+p3
+```
+
+##### 4-Room
+
+```{r}
+Filtered_2022_345rmRange <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("4 ROOM")) %>%
+  group_by(town) %>%
+  summarise(min_price = min(priceK),
+            max_price = max(priceK))
+
+p3 <- plot_ly(Filtered_2022_345rmRange) %>% 
+  add_segments(x = ~min_price, xend = ~max_price, y = ~town, yend = ~town, showlegend = FALSE) %>%
+  add_markers(x = ~min_price, y = ~town, name = "Min", color = I("#e66819")) %>%
+  add_markers(x = ~max_price, y = ~town, name = "Max", color = I("#bf0d31")) %>%
+  layout(
+    title = "Resale Price Range Aross Planning Areas (SGD, Thousands)",
+    xaxis = list(title = "Resale Price (SGD, thousands)"),
+    yaxis = list(title = "Planning Area"),
+    margin = list(l = 70)
+  )
+
+p3
+```
+
+##### 5-Room
+
+```{r}
+Filtered_2022_345rmRange <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("5 ROOM")) %>%
+  group_by(town) %>%
+  summarise(min_price = min(priceK),
+            max_price = max(priceK))
+
+p3 <- plot_ly(Filtered_2022_345rmRange) %>% 
+  add_segments(x = ~min_price, xend = ~max_price, y = ~town, yend = ~town, showlegend = FALSE) %>%
+  add_markers(x = ~min_price, y = ~town, name = "Min", color = I("#e66819")) %>%
+  add_markers(x = ~max_price, y = ~town, name = "Max", color = I("#bf0d31")) %>%
+  layout(
+    title = "Resale Price Range Aross Planning Areas (SGD, Thousands)",
+    xaxis = list(title = "Resale Price (SGD, thousands)"),
+    yaxis = list(title = "Planning Area"),
+    margin = list(l = 70)
+  )
+
+p3
+```
+:::
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  Sengkang has a much narrower price range despite having one of the most transactions int he area.
+
+2.  In general, 4-room flats have a wider price range
+:::
+
+#### Median Resale Price by Storey Range
+
+Lastly, we know that the storey of a unit also have an impact on the resale price of the unit. But it still differs by
+
+::: panel-tabset
+##### Overview
+
+```{r}
+Filtered_2022_345rmStorey <- Filtered_2022_345rm %>%
+  group_by(town,storey_range) %>%
+  summarise(medianpriceK = median(priceK))
+
+tooltip_p4 <-  paste("Town:", Filtered_2022_345rmStorey$town,
+                      "\nStorey: " , Filtered_2022_345rmStorey$storey_range,
+                      "\nMedian Price: ",Filtered_2022_345rmStorey$medianpriceK,"K")
+
+
+p4 <- ggplot(data = Filtered_2022_345rmStorey, aes(x = town, y = storey_range, fill = medianpriceK)) +
+  geom_tile_interactive(tooltip = tooltip_p4) +
+  scale_fill_gradient(low = "#ECE2F0", high = "#6A51A3") +
+  labs(title = "Median Resale Price against Storey Range in Different Towns, 2022 Singapore", 
+       x = "Residential Town", 
+       y = "Storey Range") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+girafe(
+  ggobj = p4,
+  width_svg = 10,
+  height_svg = 10 * 0.618
+)
+```
+
+##### 3-Room
+
+```{r}
+Filtered_2022_345rmStorey <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("3 ROOM")) %>%
+  group_by(town,storey_range) %>%
+  summarise(medianpriceK = median(priceK))
+
+tooltip_p4 <-  paste("Town:", Filtered_2022_345rmStorey$town,
+                      "\nStorey: " , Filtered_2022_345rmStorey$storey_range,
+                      "\nMedian Price: ",Filtered_2022_345rmStorey$medianpriceK,"K")
+
+
+p4 <- ggplot(data = Filtered_2022_345rmStorey, aes(x = town, y = storey_range, fill = medianpriceK)) +
+  geom_tile_interactive(tooltip = tooltip_p4) +
+  scale_fill_gradient(low = "#ECE2F0", high = "#6A51A3") +
+  labs(title = "Median Resale Price against Storey Range in Different Towns, 2022 Singapore", 
+       x = "Residential Town", 
+       y = "Storey Range") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+girafe(
+  ggobj = p4,
+  width_svg = 10,
+  height_svg = 10 * 0.618
+)
+```
+
+##### 4-Room
+
+```{r}
+Filtered_2022_345rmStorey <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("4 ROOM")) %>%
+  group_by(town,storey_range) %>%
+  summarise(medianpriceK = median(priceK))
+
+tooltip_p4 <-  paste("Town:", Filtered_2022_345rmStorey$town,
+                      "\nStorey: " , Filtered_2022_345rmStorey$storey_range,
+                      "\nMedian Price: ",Filtered_2022_345rmStorey$medianpriceK,"K")
+
+
+p4 <- ggplot(data = Filtered_2022_345rmStorey, aes(x = town, y = storey_range, fill = medianpriceK)) +
+  geom_tile_interactive(tooltip = tooltip_p4) +
+  scale_fill_gradient(low = "#ECE2F0", high = "#6A51A3") +
+  labs(title = "Median Resale Price against Storey Range in Different Towns, 2022 Singapore", 
+       x = "Residential Town", 
+       y = "Storey Range") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+girafe(
+  ggobj = p4,
+  width_svg = 10,
+  height_svg = 10 * 0.618
+)
+```
+
+##### 5-Room
+
+```{r}
+Filtered_2022_345rmStorey <- Filtered_2022_345rm %>%
+  filter(flat_type %in% c("5 ROOM")) %>%
+  group_by(town,storey_range) %>%
+  summarise(medianpriceK = median(priceK))
+
+tooltip_p4 <-  paste("Town:", Filtered_2022_345rmStorey$town,
+                      "\nStorey: " , Filtered_2022_345rmStorey$storey_range,
+                      "\nMedian Price: ",Filtered_2022_345rmStorey$medianpriceK,"K")
+
+
+p4 <- ggplot(data = Filtered_2022_345rmStorey, aes(x = town, y = storey_range, fill = medianpriceK)) +
+  geom_tile_interactive(tooltip = tooltip_p4) +
+  scale_fill_gradient(low = "#ECE2F0", high = "#6A51A3") +
+  labs(title = "Median Resale Price against Storey Range in Different Towns, 2022 Singapore", 
+       x = "Residential Town", 
+       y = "Storey Range") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+girafe(
+  ggobj = p4,
+  width_svg = 10,
+  height_svg = 10 * 0.618
+)
+```
+:::
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  In general the prices increase as the storey range goes up.
+
+2.  It looks like the prices increases are generally gradual up to 9 storey, but starts to scale up very fast after that. this applies to all areas.
+:::
+
+## Conclusion
+
+In terms of data visualisations, complicated plots are not always the right answer, what is more important is to understand the business question and identify what is relevant before determining what are the possible ways to visualise the data for more insights.
+
+Some other plots that were considered but not used were , Treemap as well as correleation plots for price to storey range and price to total square metre.
+
+Treemap would had been able to show some price difference between different planning districts, but it seemed to be to be the wrong use of it. It was originally intended to visualise Tree structured node links and provide a quick way to quickly identify large contributers to common theme. in the case of the resale prices, there are not contributing to a common theme, just showing differences
+
+Price to storey range are not plotted for correleation because It is already a known fact that the HDB valuer will add a certain amount to the valudation for each additional storey.
+
+Price to total square metre was also not plotted for correlation. By design, HDB 3, 4 and 5 rooms flats are already assigned certain size parameters for building. A 5 room flat would be larger than a 4 room flat and priced higher, same for 4 room to 3 room. So testing for correlation between resale price and total square area would always be positive. meaning larger space equates to higher price.
+
+What would had been relevant but was not visualised in this exercise was to show the prices in a geographically layout becasue people also have preferences for staying in certain areas. e.g. North, Central, West. I tested geofacet, but wasn't able to get it to display correctly in quarto.
+
+## References
+
+<https://datavizpyr.com/violinplot-vs-boxplot-when-violinplot-can-be-more-useful/>
+
+<https://isss608-tasapornv.netlify.app/take-home_ex/take-home_ex03/take-home_ex03>
+
+<https://www.valuechampion.sg/average-cost-housing-singapore>
+
+<https://towardsdatascience.com/mean-or-median-choose-based-on-the-decision-not-the-distribution-f951215c1376>

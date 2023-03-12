@@ -148,7 +148,7 @@ this code sets the country names as the index. it is needed because heatmaps use
 row.names(wh) <- wh$Country
 ```
 
-### Transforming into  matrix
+### Transforming into matrix
 
 seems like heatmaps require data in matrix
 
