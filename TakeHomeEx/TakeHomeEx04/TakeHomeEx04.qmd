@@ -11,3 +11,560 @@ author: "Shi Chee Liang"
 date: 10 March 2023
 date-modified: "`r Sys.Date()`"
 ---
+
+## Task
+
+In this take-home exercise, we are required to uncover the impact of COVID-19 as well as the global economic and political dynamic in 2022 on Singapore bi-lateral trade (i.e. Import, Export and Trade Balance) by using appropriate analytical visualisation techniques learned in **Lesson 6: It's About Time**. Students are encouraged to apply appropriate interactive techniques to enhance user and data discovery experiences.
+
+## Tools used
+
+-   [R Binaries](https://cran.r-project.org/) 4.2.2 on Windows 11 Professional
+
+-   RStudio 2022.12.0 build 353 on Windows 11 Professional (RStudio has been renamed as [Posit](https://posit.co/))
+
+## Libraries
+
+The R packages we'll use for this analysis are:
+
+-   [tidyverse](https://www.tidyverse.org/) - a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
+
+-   [ggplot2](https://ggplot2.tidyverse.org/) - a system for declaratively creating graphics, based on The Grammar of Graphics (ggplot2 is included in the tidyverse package, i'm highlighting it here for emphasis, since it's our main tool for visualisation).
+
+-   [readxl](https://readxl.tidyverse.org/)- The readxl package makes it easy to get data out of Excel and into R. Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) readxl has no external dependencies, so it\'s easy to install and use on all operating systems. It is designed to work with *tabular* data (ggplot2 is included in the tidyverse package, i'm highlighting it here for emphasis, since it'sit's important for us to extract the data).
+
+-   [knitr](https://yihui.org/knitr/)- Inspired by [Sweave](https://en.wikipedia.org/wiki/Sweave), the **knitr** package was designed to be a transparent engine for dynamic report generation with R, and combine features in other add-on packages into one package
+
+-   [kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)- The goal of `kableExtra` is to help build common complex tables and manipulate table styles. It imports the pipe `%>%` symbol from `magrittr` and verbalize all the functions, so basically you can add \"layers\" to a kable output in a way that is similar with `ggplot2` and `plotly`.
+
+-   [ggbraid](https://www.nsgrantham.com/ggbraid) - ggbraid that extends the functionality of `geom_ribbon()` in ggplot2. It, correctly fills the area between two alternating series (drawn as lines or steps) with two different colors.
+
+-   [[plotly]{.underline}](https://plotly.com/r/) - a package that provides interactive elements to ggplot via javascript.
+
+-   [lubridate](https://lubridate.tidyverse.org/) - Lubridate makes it easier to do the things R does with date-times and possible to do the things R does not.
+
+## Data Used
+
+For the purpose of this take-home exercise, [Merchandise Trade provided by Department of Statistics, Singapore (DOS)](https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data) will be used. The data are available under the sub-section of Merchandise Trade by Region/Market. You should download the data by clicking on the link **Download all in Excel** on the same webpage. The study period should be between **January 2020 to December 2022**.
+
+## Importing and preparing the Data Set
+
+### loading packages
+
+We first load the required packages.
+
+```{r}
+pacman::p_load(tidyverse, readxl, knitr, kableExtra, ggbraid, plotly, lubridate)
+```
+
+The download of the data only yielded one excel file. Checks by opening in excel revealed that the data had 3 sheets with Imports in T1 and exports in T2
+
+![](images/image-1381331516.png)
+
+![](images/image-1006892697.png)
+
+## Importing data
+
+Now, let's read in the data using read_excel() from readxl to import the data.
+
+```{r}
+im <- read_excel("data/outputFile.xlsx",sheet = "T1",range = "A10:UT129")
+ex <- read_excel("data/outputFile.xlsx",sheet = "T2",range = "A10:UT101")
+```
+
+::: callout-note
+In the above code, "sheet" is used to indicate which sheet in the worksheet we are using. "range" is needed to indicate which row to read because earlier visual inspections showed that there are text descriptions at the top before the data starts and at the bottom after the data ends.
+:::
+
+We now use take a quick look at the data. instead of using glimpse which i usually prefer, we will use kable in conjunction with head. head returns the first 5 or a specified number of entries in the data field, while kable can help to format the table and make it easier to read. kableExtra is used to manupulate the font size
+
+::: panel-tabset
+### Imports
+
+```{r}
+kable(head(im)) %>%
+  kable_styling(font_size = 12)
+```
+
+### Exports
+
+```{r}
+kable(head(ex)) %>%
+    kable_styling(font_size = 12)
+```
+:::
+
+## Data Wrangling
+
+I will be structuring the data wrangling in this manner (filter rows \> manipulate variables \> add features \> drop features ). This structure allows me to quickly come back to the relevant sections to add new codes should i decide to create more visualizations that data which i might have previously filtered or dropped.
+
+Inspections on the data uncovered a few issues
+
+1.  The time series on the data set is contained in columns, this would make the data very difficult to use for plotting time series charts
+
+2.  There are numerous different categories contained in the same data set. Total, Continent, Country
+
+3.  The scales used are different. trades for total and continent are displayed in Millions, while trades for countries are displayed in thousands
+
+Hence the general idea is to filter our needed data, "pivot longer" the dates, merge the import and export data then seperate it into 2 logical data sets for tradetotal and country
+
+::: callout-note
+Note that we would not be using visualising as continents because continents can be made up of multiple countries, and each of these countries make their own economic and political decisions. Hence visualising by continent wouldn't tell us much and it would also be in-actionable, since we don't engage with whole continents but rather countries.
+
+The only exception is European Union. it is commonly treated as one trading bloc, even on the Singstat website
+:::
+
+#### Filter required data
+
+I decided to do the filtering as the 1st step as this makes the data smaller and faster to process subsequently. Although the impact may not be so visible due to this being a smaller data set, it could make quite a big difference if the data set is large.
+
+We the data set contains data all the way back from 1976, however we only need data from Jan 2020 to Dec 2022.
+
+```{r}
+im <- im %>%
+  select(`Data Series`, contains(c("2020", "2021", "2022"))) 
+ex <- ex %>%
+  select(`Data Series`, contains(c("2020", "2021", "2022"))) 
+```
+
+#### Manipulate data
+
+The data especially the date is not in a format that is easy for us to use for plotting. hence we will use `pivot_longer()` to turn part of the column into rows
+
+```{r}
+im2022 <- im %>%
+  pivot_longer(
+  cols = !`Data Series`,
+  names_to = "date",
+  values_to = "import_amount") %>%
+  rename("Country" = `Data Series`)
+
+ex2022 <- ex %>%
+  pivot_longer(
+  cols = !`Data Series`,
+  names_to = "date",
+  values_to = "export_amount") %>%
+  rename("Country" = `Data Series`)
+```
+
+Now, we also want to merge the two data set to allow for easy plotting later. we use str\_`replace()` to convert "Totals Merchandise imports / exports" to have the same name "Totals" so that we can use it as a common header for merging.
+
+```{r}
+im2022$Country <- str_replace(im2022$Country, "Merchandise Imports \\(Thousand Dollars\\)", "")
+ex2022$Country <- str_replace(ex2022$Country, "Merchandise Exports \\(Thousand Dollars\\)", "")
+```
+
+Merging the data set with `merge()`
+
+```{r}
+trade <- merge(x = im2022, y = ex2022, all = T)
+```
+
+The date column is currently a string, we want to convert to date format to facilitate visualising the time series. this done using `as.date()`
+
+Using a newly learnt function called `str_detect()` here. it is a base r function that works in the same way as `grepl()`, but faster.
+
+```{r}
+trade <- trade %>%
+  mutate(date = as.Date(paste(date, "01"), format = "%Y %b %d"))
+```
+
+Converting all the "Thousands" to "Millions". This is done here first to avoid repeatedly converting into Thousands when visualising later
+
+```{r}
+trade <- trade %>%
+  mutate(import_amount = ifelse(!(str_detect(Country, "Million Dollars")),import_amount/1000,import_amount)) %>%
+  mutate(export_amount = ifelse(!(str_detect(Country, "Million Dollars")),export_amount/1000,export_amount))
+```
+
+Now we split the data set into two, one for overview and one for just countries. at he same time, we filter out all the continents.
+
+```{r}
+tradeoverview <- trade %>%
+  filter(str_detect(Country, "Total"))
+
+tradecountry <- trade %>%
+  #exclude total
+  filter(!(str_detect(Country, "Total"))) %>%
+  #exclude continents
+  filter(!(str_detect(Country, "America"))) %>%
+  filter(!(str_detect(Country, "Asia"))) %>%
+  filter(!(str_detect(Country, "Europe \\("))) %>%
+  filter(!(str_detect(Country, "Oceania"))) %>%
+  filter(!(str_detect(Country, "Africa"))) %>%
+  filter(!(str_detect(Country, "Asia")))
+```
+
+Some tidying up of the tradecountry data by replace na values as well as removing any other "(Thousands)" and "(Millions)" that still remains.
+
+```{r}
+tradecountry <- tradecountry %>%
+  #replacing na values with 0
+  mutate(import_amount = replace_na(import_amount,0)) %>%
+  mutate(export_amount = replace_na(export_amount,0)) %>%
+  #remove the dollars quantifiers in brackets
+  mutate(Country = str_replace_all(tradecountry$Country, "\\s*\\(.*?\\)", ""))
+```
+
+#### Add Features
+
+Now we add some features that we need for the visualising later. we add
+
+-   "Total Trade" to compare top partners
+
+-   "Tradebalance" to use for ggbraid
+
+-   year and month for plotting the cycle plots
+
+```{r}
+
+tradeoverview <- tradeoverview %>%
+  #compute total trade volume
+  mutate(tradetotal = export_amount + import_amount) %>%
+  #compute balance of trade
+  mutate(tradebal = export_amount - import_amount) %>%
+  arrange(`date`) %>%
+  mutate(year = factor(year(date))) %>%
+  mutate(month = factor(month(date)))
+
+tradecountry <- tradecountry %>%
+  #compute total trade volume
+  mutate(tradetotal = export_amount + import_amount) %>%
+  #compute balance of trade
+  mutate(tradebal = export_amount - import_amount) %>%
+  arrange(`date`) %>%
+  mutate(year = factor(year(date)))
+```
+
+#### Drop Features / rows
+
+Drop column is my last step because additional columns might be created as an intermediary when we are deriving additional features in the previous step. In that sense, placing drop feature as the last step allows me to clean up the data set before visualistions. however if the original data set is huge. it might be a good idea to drop columns directly after filtering.
+
+```{r}
+ # Nothing removed, leaving placeholder here in case there's a need in the future
+```
+
+#### Check for NA values
+
+Lastly, we will now do a sanity check for NA values.
+
+```{r}
+colSums(is.na(tradeoverview))
+colSums(is.na(tradecountry))
+```
+
+Good! there are no NA values. The data set is now ready for further visualisations!
+
+## Visualisation of data
+
+We will first look at an overview and seasonal trends of ingapore trade between 2022 and 2022 before we look at our top 10 trading partners.
+
+### Overview of Singapore Trade between 2020 and 2022
+
+#### Overall Trend
+
+We look at the overall trend of Singapore Trade using ggbraid, which will show us the import and export line as well as the trade balances in a shaded area. This plot allows us to easily identify events which may have an impact on trade.
+
+```{r}
+#| out-width: 100%
+#| fig-height: 4
+
+tradeoverviewlongline <- tradeoverview %>%
+  select(!tradebal) %>%
+  pivot_longer(
+    cols = c(import_amount, export_amount),
+    names_to = "trade_type",
+    values_to = "amount")
+
+p1 <- ggplot() +
+  #IMport Export lines
+  geom_line(data = tradeoverviewlongline, aes(x = date, y = amount, group = trade_type,
+                                         color = trade_type),linewidth = 1.2) +
+  ylim(20000, NA) +
+  #shaded aerea
+  geom_braid(data = tradeoverview, aes(x = date, ymin = import_amount, 
+                                       ymax = export_amount, 
+                                       fill = import_amount < export_amount), 
+                                       alpha = 0.5) +
+  scale_color_manual(values = c("steelblue", "salmon"), guide = "none") + 
+  scale_fill_manual(values = c("steelblue", "salmon"), guide = "none") + 
+  labs(title = "Singapore's Total Trade (2020-2022)", x = "", 
+       y = "SGD (In Millions)", color = "Values") + 
+  annotate("text", x=as.Date("2023-01-01"), y=55001, label="Export", 
+           size=4, colour = "steelblue", fontface = "bold") + 
+  annotate("text", x=as.Date("2023-01-01"), y=49870, label="Import", 
+           size=4, colour = "salmon", fontface = "bold") + 
+  theme(title = element_text(size = 12), axis.title = element_text(size = 8))+
+  theme_minimal() +
+  
+  #Events
+  geom_vline(aes(xintercept = as.Date("2020-04-01")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2020-05-01"), y=55000, 
+           label="Oil Price Collapse", size=3) +
+  geom_vline(aes(xintercept = as.Date("2020-01-31")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2020-01-31"), y=62000, 
+           label="Brexit \n Start", size=3) +
+  geom_vline(aes(xintercept = as.Date("2020-12-31")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2020-12-31"), y=62000, 
+           label="Brexit \n Exit", size=3) +
+  geom_vline(aes(xintercept = as.Date("2021-03-01")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2021-03-01"), y=52000, 
+           label="Evergreen Suez Canal Blockage", size=3) +
+  geom_rect(aes(xmin=as.Date("2020-04-07"), xmax=as.Date("2020-06-01"), ymin=20000,
+                ymax=Inf, alpha = 0.5)) +
+  annotate("text", x=as.Date("2020-05-07"), y=30000, 
+           label="1st Circuit Breaker", size=3) +
+  geom_rect(aes(xmin=as.Date("2021-05-16"), xmax=as.Date("2021-06-13"), ymin=20000,
+                ymax=Inf, alpha = 0.5)) +
+  annotate("text", x=as.Date("2021-05-31"), y=30000, 
+           label="2nd Circuit Breaker", size=3) +
+  geom_vline(aes(xintercept = as.Date("2022-03-02")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2022-03-02"), y=50000, 
+           label="Russia, Ukraine Conflict", size=3) +
+  geom_vline(aes(xintercept = as.Date("2021-11-24")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2021-11-24"), y=23000, 
+           label="Omicron Variant", size=3) +
+  geom_vline(aes(xintercept = as.Date("2022-05-01")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2022-05-01"), y=40000, 
+           label="Everygrande Debt Crisis", size=3) +
+  geom_vline(aes(xintercept = as.Date("2022-05-01")), col="grey", 
+             linetype = "dashed", linewidth=1) +
+  annotate("text", x=as.Date("2022-05-01"), y=30000, 
+           label="US tech War on China", size=3) +
+  theme(legend.position = "none")
+
+#geom_braid does not work with plotly
+p1
+```
+
+::: {.callout-note appearance="minimal"}
+**Overview**
+
+1.  Singapore's overall trade shows a gradual increase from year 2022 to 2023.
+
+2.  Singapore had also been maintaining a trade surplus during this period.
+
+3.  The Import and export seemed roughly matched, perhaps because Singapore is a major transit hub. a large amount of the goods imported are actually prepared for further exports.
+
+**Notable Events**
+
+1.  Brexit (January 2020 - present): The United Kingdom's decision to leave the European Union (EU) had an impact on Singapore's trade, as Singapore has strong economic ties with both the UK and the EU. Brexit was officially declared in Jan 2020 and fully transited in Dec 2020.
+
+2.  Oil Price Collapse (April 2020): The collapse in oil prices in April 2020 had a significant impact on Singapore's trade, as Singapore is a major oil trading hub. The collapse in oil prices led to a decline in demand for oil, which impacted Singapore's oil refining and petrochemical industries.
+
+3.  Evergreen Blockage in Suez Canal (March 2021): The blockage of the Suez Canal by the container ship Evergreen had a significant impact on global trade, including Singapore's trade. The blockage disrupted global supply chains and led to a backlog of ships waiting to transit through the canal. The sudden spike in trade
+
+4.  Covid (2020 - present): Contrary to popular belief, domestic COVID measures showed no significant impact on Singapore's trade with global partners. The first circuit breaker was implemented from April 7, 2020, to June 1, 2020. which covered a dip in trade that was already happening. in fact trade picked up in the middle of the circuit breaker. The second circuit breaker was implemented from May 16, 2021, to June 13, 2021 while trade was already on an upward trend. Global COVID events however is another story. the Omicron Variant was detected in Nov 21 and there was a sharp decline in trade 1 month later as many countries start to close borders again.
+
+5.  Russia-Ukraine Conflict (Mar 2022 - present): the Russia Ukraine conflict sparked fears of oil prices which naturally impacted SIngapore as a major oil trading and processing hub
+
+6.  Evergrande Debt Crisis (May 2022 - present): The crisis caused a slowdown in China's economy which would in turn affect trade
+
+7.  US tech war on China (May 2022 - Present): The US Senate passed a bill aimed at bolstering American competitiveness against China, which included measures related to trade and technology. This involved bans on many industries importing and exporting to China.
+:::
+
+#### Seasonal Trend
+
+Now e will use Cycle Plots to look at the seasonal trends between individual months across the duration of 1 year. This allows us to identify any patterns that may repeat within a year.
+
+```{r}
+h_import <- tradeoverview %>%
+  group_by(month) %>%
+  summarise(avg = mean(import_amount))
+
+h_export <- tradeoverview %>%
+  group_by(month) %>%
+  summarise(avg = mean(export_amount))
+
+p3 <- ggplot() +
+  geom_line(data = tradeoverview, 
+            aes(x = factor(year), y = import_amount, group = month, 
+                colour = "import")) + 
+  geom_hline(data = h_import, aes(yintercept = avg, colour = "import"), 
+             linetype = 6, size = 0.5) + 
+  geom_line(data = tradeoverview, 
+            aes(x = factor(year), y = export_amount, group = month, 
+                colour = "export")) + 
+  geom_hline(data = h_export, aes(yintercept = avg, colour = "export"), 
+             linetype = 6, size = 0.5) +
+  facet_grid(~month) +
+  labs(x = "Date", y = "SGD (Milions)", title = "Yearly Trends of Imports & Export, 2020 to 2022") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplotly(p3)
+```
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  We can see that between the months of Jan to Mar, there is a slight dip before the trade volume spike upwards again. The dip might be due to Chinese New Year during which factories in China supplying most of the goods in the world would close for a week. The dip would probably had been more pronounced if the onset of COVID in early 2020 had not affected trade. The spike might be due to the factories resuming operations and clearing the backlog.
+
+2.  Trade volume seem to be dipping again in Apr, however that is most likely due to supply returning to normal after the Chinese New year back log is cleared plus compounded by the effects of Oil Price Collapse in 2020, Suez Canal Blockage in 2021 and Omicron Variant near end of 2021 on trade leading up to Apr in their respective years. More data would be needed to ascertain this.
+:::
+
+### Trade with top 10 trading Partners
+
+#### Trade Volume of top 10 trading partners
+
+We try to add up the total volume of imports and exports by country and rank them to figure out who our top 10 trading partners are. 3 years are tabulated seperately as the ranking may vary between years.
+
+::: panel-tabset
+##### 2020
+
+```{r}
+tradetop10_2020 <- tradecountry %>%
+  filter(year == '2020') %>%
+  group_by(Country) %>%
+  summarise(tradetotal = sum(tradetotal)) %>%
+  top_n(n=10) %>%
+  arrange(desc(tradetotal))
+
+p4 <- ggplot(tradetop10_2020, aes(x=reorder(Country, tradetotal), y = tradetotal, fill = Country)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(x = "Country", y = "SGD(Millions)", title = "Total Trade Volume, 2022")
+  
+ggplotly(p4)
+```
+
+##### 2021
+
+```{r}
+tradetop10_2021 <- tradecountry %>%
+  filter(year == '2021') %>%
+  group_by(Country) %>%
+  summarise(tradetotal = sum(tradetotal)) %>%
+  top_n(n=10) %>%
+  arrange(desc(tradetotal))
+
+p4 <- ggplot(tradetop10_2021, aes(x=reorder(Country, tradetotal), y = tradetotal, fill = Country)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(x = "Country", y = "SGD(Millions)", title = "Total Trade Volume, 2022")
+  
+ggplotly(p4)
+```
+
+##### 2022
+
+```{r}
+tradetop10_2022 <- tradecountry %>%
+  filter(year == '2022') %>%
+  group_by(Country) %>%
+  summarise(tradetotal = sum(tradetotal)) %>%
+  top_n(n=10) %>%
+  arrange(desc(tradetotal))
+
+p4 <- ggplot(tradetop10_2022, aes(x=reorder(Country, tradetotal), y = tradetotal, fill = Country)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(x = "Country", y = "SGD(Millions)", title = "Total Trade Volume, 2022")
+  
+ggplotly(p4)
+```
+:::
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  While there had been changes in the ranking across 2020 to 2022, the top 10 countries are always the same.
+
+2.  The top 10 training partners are, China, Malaysia, United States, Taiwan, European Union, Hong Kong, Indonesia, Republic of Korea, Japan and Thailand.
+:::
+
+#### Import, Export, Trade Balance of top 10, 2022
+
+Finally we look at the Imports, Exports and Trade of Singapore's top 10 trading partners.
+
+```{r}
+#| out-width: 100%
+
+#filter out data for countries in top 20
+tradetop10country <- tradecountry %>%
+  filter(Country %in% tradetop10_2022$Country) %>%
+  mutate(Country = factor(Country, level = tradetop10_2022$Country))
+
+
+#convert to long for plotting
+tradeoverviewlongline <- tradecountry %>%
+  select(!tradebal) %>%
+  group_by(Country) %>%
+  pivot_longer(
+    cols = c(import_amount, export_amount),
+    names_to = "trade_type",
+    values_to = "amount") %>%
+  ungroup() %>%
+  filter(Country %in% tradetop10country$Country) %>%
+  mutate(Country = factor(Country, level = tradetop10_2022$Country))
+ 
+#plotting
+p5 <- ggplot() +
+  geom_line(data = tradeoverviewlongline, aes(x = date, y = amount, 
+                                         group = trade_type, color = trade_type),
+            linewidth = 1.2) +
+  geom_braid(data = tradetop10country, 
+             aes(x = date, ymin = import_amount, ymax = export_amount,
+                 fill = import_amount > export_amount),
+             alpha = 0.5) + 
+  scale_color_manual(name = "Trade Type", values = c("steelblue","salmon"),
+                     labels = c("Export", "Import")) + 
+  scale_fill_manual(values = c("steelblue", "salmon"), guide = "none") + 
+  labs(title = "Singapore's Merchandise Trade with Top 10 Trade Partners", 
+       subtitle = "Year 2022",
+       x = "", y = "SGD(Millions)", color = "Values") + 
+  facet_wrap(vars(Country), nrow = 3) + 
+  theme(title = element_text(size = 12), axis.title = element_text(size = 8), 
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=-0.1),
+        legend.position="bottom", legend.title=element_text(size=12))
+
+#ggbraid not implemented for ggplotly
+p5
+```
+
+::: {.callout-note appearance="minimal"}
+**Observations**
+
+1.  Singapore has a constant high trade deficit with Malaysia, Taiwan
+
+2.  The trade deficit with Malaysia is not surprising since we buy alot of food and other products from our closest neighbor.
+
+3.  The trade deficit with Taiwan might be a result of buying semiconductors, but this needs to be checked.
+
+4.  Singapore has a constant moderate trade deficit with European Union, Korea, Japan
+
+5.  Singapore has a balanced trade balance with united States. i am not sure if this is deliberate because United States has a history of attacking countries that have a high trade surplus with them
+
+6.  Singapore has a constant high trade surplus with China, Hong Kong, Indonesia and Thailand.
+
+7.  Our Trade Surplus with Hong Kong is especially high. it may be interesting to find out more.
+:::
+
+## Conclusion
+
+Time Series Charts presents an excellent way of identifying patterns which may otherwise be hard to identify from purely looking at numbers. for example. we may look at differences in trade amounts numerically, but it's hard for the brain to put them together to ascertain if the change is big and could it be linked to certain events.
+
+## References
+
+<https://www.singstat.gov.sg/modules/infographics/singapore-international-trade#:~:text=In%202022%2C%20Mainland%20China%2C%20Malaysia,exports%20to%20these%20trading%20partners.&text=Made%20up%2083.0%25%20of%20non%2Doil%20domestic%20exports.>
+
+<https://nsgrantham.github.io/ggbraid/>
+
+<https://r-graph-gallery.com/218-basic-barplots-with-ggplot2.html>
+
+<https://magdalenechan-iss608.netlify.app/take_home_ex/take_home_ex04/take_home_ex04>
+
+<https://cheryljeanne-isss608-ay2223.netlify.app/take-home_ex/take-home_ex04/take-home_ex04>
+
+<https://farrahmf.netlify.app/take-home_ex/take-home_ex04/take-home_ex04>
