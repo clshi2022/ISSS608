@@ -17,6 +17,10 @@ website:
         href: "InClassEx/InClassEx04/InClassEx04.qmd"
       - text: "In-class Exercise 05"
         href: "InClassEx/InClassEx05/InClassEx05.qmd"
+      - text: "In-class Exercise 07"
+        href: "InClassEx/InClassEx07/InClassEx07.qmd"
+      - text: "In-class Exercise 08"
+        href: "InClassEx/InClassEx08/InClassEx08.qmd"
     - text: "Take Home Exercises"
       menu:
       - text: "Take Home Exercise 01"
@@ -25,6 +29,8 @@ website:
         href: "TakeHomeEx/TakeHomeEx02/TakeHomeEx02.qmd"
       - text: "Take Home Exercise 03"
         href: "TakeHomeEx/TakeHomeEx03/TakeHomeEx03.qmd"
+      - text: "Take Home Exercise 04"
+        href: "TakeHomeEx/TakeHomeEx04/TakeHomeEx04.qmd"
     right:
       - href: index.qmd
         text: Home
